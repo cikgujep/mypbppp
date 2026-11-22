@@ -2539,7 +2539,7 @@ function doGetMaster_(e) {
   // Demo dihos di GitHub Pages (muat semula halaman berfungsi; dalam iframe Apps Script ia menjadi kosong)
   t.urlDemo = URL_LANDING_ + 'demo.html';
   // Teks cara mendaftarkan sekolah (Script Properties KONTAK), contoh nombor WhatsApp atau e-mel pembangun
-  t.kontak = prop.getProperty('KONTAK') || 'Hubungi pembangun myPBPPP dengan kod dan nama sekolah untuk didaftarkan dalam pusat lesen. Percuma.';
+  t.kontak = prop.getProperty('KONTAK') || 'Isi borang Daftar sekolah di laman myPBPPP. Yuran sekali bayar.';
   return t.evaluate().setTitle('myPBPPP: Keberhasilan dan Kompetensi PBPPP dalam satu sistem')
     .addMetaTag('viewport', 'width=device-width, initial-scale=1');
 }
@@ -2623,6 +2623,11 @@ var JAWATAN_PEMOHON_ = ['Pengetua', 'Guru Besar', 'Penolong Kanan Pentadbiran', 
   'Setiausaha Kurikulum', 'Setiausaha Kokurikulum', 'Setiausaha Disiplin', 'Guru Kanan Mata Pelajaran (GKMP)', 'Guru Data', 'Guru ICT', 'Guru', 'Pegawai KPM / JPN / PPD', 'Lain-lain'];
 var LAJUR_PENDAFTARAN_ = ['MASA', 'KOD_SEKOLAH', 'NEGERI', 'NAMA_SEKOLAH', 'BIL_GURU', 'NAMA_PEMOHON', 'JAWATAN', 'TELEFON', 'EMEL', 'JUMLAH_KOPI', 'RESIT', 'STATUS'];
 var HAD_RESIT_ = 5 * 1024 * 1024;
+// Yuran sekali bayar: RM25 hingga 28 Februari 2027, RM40 mulai 1 Mac 2027 (00:00 waktu Malaysia)
+var HARGA_AWAL_ = 25, HARGA_BIASA_ = 40, TAMAT_HARGA_AWAL_ = '2027-02-28T16:00:00Z';
+
+/** Harga semasa (RM) pada tarikh d (lalai: sekarang). */
+function hargaSemasa_(d) { return (d || new Date()).getTime() < new Date(TAMAT_HARGA_AWAL_).getTime() ? HARGA_AWAL_ : HARGA_BIASA_; }
 
 /** Borang pendaftaran (landing page) dihantar ke sini sebagai JSON. Hanya dalam mod master. */
 function doPost(e) {
@@ -2655,7 +2660,7 @@ function sahkanBorangDaftar_(d) {
     jawatan: teksBorang_(d.jawatan, 60, 'Jawatan', true),
     telefon: teksBorang_(d.telefon, 20, 'No. telefon', true),
     emel: teksBorang_(d.emel, 100, 'Emel rasmi', true).toLowerCase(),
-    jumlah: teksBorang_(d.jumlah, 10, 'Jumlah', false),
+    jumlah: teksBorang_(d.jumlah, 10, 'Jumlah dibayar', true),
     setuju: !!d.setuju
   };
   if (!/^[A-Z]{3}[0-9]{4}$/.test(o.kod)) throw new Error('Kod sekolah mesti 3 huruf dan 4 nombor, contoh JEA1234.');
@@ -2664,12 +2669,14 @@ function sahkanBorangDaftar_(d) {
   if (o.bilGuru && !/^[0-9]{1,4}$/.test(o.bilGuru)) throw new Error('Bilangan guru mesti nombor.');
   if (!/^\+?[0-9][0-9 -]{8,15}$/.test(o.telefon)) throw new Error('No. telefon tidak sah.');
   if (!/^[^@\s]+@moe-dl\.edu\.my$/.test(o.emel)) throw new Error('Gunakan emel rasmi @moe-dl.edu.my (akaun ini digunakan untuk pemasangan).');
-  if (o.jumlah && !/^[0-9]{1,5}(\.[0-9]{1,2})?$/.test(o.jumlah)) throw new Error('Jumlah mesti nombor, contoh 10.');
+  if (!/^[0-9]{1,5}(\.[0-9]{1,2})?$/.test(o.jumlah)) throw new Error('Jumlah dibayar mesti nombor, contoh ' + hargaSemasa_() + '.');
+  if (Number(o.jumlah) < hargaSemasa_()) throw new Error('Yuran semasa ialah RM' + hargaSemasa_() + ' (sekali bayar).');
+  if (!d.resit || !d.resit.data) throw new Error('Sila muat naik resit pembayaran.');
   if (!o.setuju) throw new Error('Sila sahkan maklumat sebelum menghantar.');
   return o;
 }
 
-/** Simpan resit (pilihan) ke folder Drive pemilik. Mengembalikan URL fail atau ''. */
+/** Simpan resit pembayaran (wajib) ke folder Drive pemilik. Mengembalikan URL fail. */
 function simpanResit_(r, o) {
   if (!r || !r.data) return '';
   var jenis = String(r.jenis || '').toLowerCase();
@@ -2678,7 +2685,7 @@ function simpanResit_(r, o) {
   if (bait.length > HAD_RESIT_) throw new Error('Resit melebihi 5MB.');
   var prop = PropertiesService.getScriptProperties(), id = prop.getProperty('FOLDER_RESIT_ID'), folder = null;
   if (id) { try { folder = DriveApp.getFolderById(id); } catch (e) { folder = null; } }
-  if (!folder) { folder = DriveApp.createFolder('myPBPPP - Resit Belanja Kopi'); prop.setProperty('FOLDER_RESIT_ID', folder.getId()); }
+  if (!folder) { folder = DriveApp.createFolder('myPBPPP - Resit Pembayaran'); prop.setProperty('FOLDER_RESIT_ID', folder.getId()); }
   var sambungan = jenis === 'application/pdf' ? '.pdf' : '.' + jenis.split('/')[1].replace('jpeg', 'jpg');
   var f = folder.createFile(Utilities.newBlob(bait, jenis, o.kod + ' ' + Utilities.formatDate(new Date(), 'Asia/Kuala_Lumpur', 'yyyyMMdd-HHmm') + sambungan));
   return 'https://drive.google.com/file/d/' + f.getId() + '/view';
@@ -2726,14 +2733,15 @@ function terimaPendaftaran_(d) {
   MailApp.sendEmail({ to: EMEL_PEMBANGUN_, replyTo: o.emel, name: 'myPBPPP', subject: 'myPBPPP: pendaftaran ' + o.kod + ' ' + o.nama + ' [' + status + ']',
     body: ['Kod sekolah: ' + o.kod, 'Nama sekolah: ' + o.nama, 'Negeri: ' + o.negeri, 'Anggaran guru: ' + (o.bilGuru || '-'), '',
       'Pemohon: ' + o.pemohon, 'Jawatan: ' + o.jawatan, 'Telefon: ' + o.telefon, 'Emel: ' + o.emel, '',
-      'Belanja kopi: ' + (o.jumlah ? 'RM' + o.jumlah : '-'), 'Resit: ' + (resit || '-'), '', 'Status lesen: ' + status].join('\n') });
+      'Bayaran: RM' + o.jumlah + ' (yuran semasa RM' + hargaSemasa_() + ', sekali bayar)', 'Resit: ' + (resit || '-'), '', 'Status lesen: ' + status].join('\n') });
   return { kod: o.kod, nama: namaBerdaftar, aktif: aktif, emel: o.emel };
 }
 
 function emelPemohon_(o, nama, aktif) {
   return ['Salam ' + o.pemohon + ',', '', 'Terima kasih kerana mendaftar myPBPPP untuk ' + nama + '.', '',
     'KOD SEKOLAH: ' + o.kod + (aktif ? ' (aktif)' : ' (sudah berdaftar; status sedang disemak oleh pembangun)'), '',
-    'LANGKAH PEMASANGAN (kira-kira 15 minit)', '',
+    'LANGKAH PEMASANGAN (kira-kira 15 minit)',
+    'Panduan bergambar langkah demi langkah (disyorkan): ' + URL_LANDING_ + 'pasang.html', '',
     '1. Log masuk ke Google dengan akaun ' + o.emel + '.',
     '2. Buka pautan ini dan klik "Buat salinan" (Make a copy):', '   ' + URL_TEMPLAT_SALIN_,
     '3. Dalam Sheet salinan: Extensions > Apps Script.',
@@ -2744,7 +2752,7 @@ function emelPemohon_(o, nama, aktif) {
     'PANDUAN BERGAMBAR (guru, PP1 dan PP2, admin): ' + URL_LANDING_ + 'panduan.html',
     'Cuba demo: ' + URL_LANDING_ + 'demo.html', '',
     'Sebarang pertanyaan, balas e-mel ini.', '',
-    'Terima kasih' + (o.jumlah ? ' juga atas belanja kopi RM' + o.jumlah + '!' : '.'), '', 'Pembangun myPBPPP'].join('\n');
+    'Bayaran RM' + o.jumlah + ' (sekali bayar) diterima bersama resit. Terima kasih kerana menyokong myPBPPP.', '', 'Pembangun myPBPPP'].join('\n');
 }
 
 // ---- SeedData.gs
@@ -3939,7 +3947,7 @@ var EKTema = (function () {
   <div class="kad">
    <h2>Rujukan rasmi</h2>
    <ul style="margin:0;padding-left:1.2rem">
-    <li>GPPKK Bab 7: Panduan Keberhasilan</li>
+    <li>Garis Panduan Penilaian Komponen Keberhasilan (GPPKK) Bab 7: Panduan Keberhasilan</li>
     <li>GPPKK Bab 8: Contoh Penulisan Sasaran</li>
     <li>Garis Panduan Instrumen Penilaian Kompetensi PBPPP: PdP, PT(A) dan GBK</li>
    </ul>
