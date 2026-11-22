@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Panduan myPBPPP: guru, PP dan admin</title>
+<meta name="description" content="Panduan bergambar menggunakan myPBPPP mengikut peranan: guru (PYD), PP1 dan PP2, dan admin sekolah.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@600;700&family=Red+Hat+Text:wght@400;500&family=Red+Hat+Mono:wght@500&display=swap">
+<style>
+:root{color-scheme:light;--kertas:#f6f2ea;--kertas2:#efe8dc;--kad:#fffdf9;--dakwat:#1c1a17;--dakwat2:#4a453e;--redup:#776f63;--garis:#e0d7c8;
+  --aksen:#e8642c;--aksen-lembut:#fbe3d6;--air:#2f6f8f;--air-lembut:#dcecf3;--hijau:#2e7d4f;--hijau-lembut:#dcefe2;
+  --muka:"Red Hat Display",system-ui,sans-serif;--teks:"Red Hat Text",system-ui,sans-serif;--mono:"Red Hat Mono",ui-monospace,monospace}
+@media (prefers-color-scheme:dark){:root{color-scheme:dark;--kertas:#14120e;--kertas2:#1b1813;--kad:#211d17;--dakwat:#f3eee5;--dakwat2:#cfc7b9;--redup:#a39a8b;--garis:#3a3429;
+  --aksen-lembut:#3a2418;--air-lembut:#18303b;--hijau-lembut:#173225}}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--kertas);color:var(--dakwat);font:17px/1.65 var(--teks);-webkit-font-smoothing:antialiased}
+a{color:inherit}
+h1,h2,h3{font-family:var(--muka);line-height:1.2;margin:0;letter-spacing:-.015em}
+.bekas{max-width:960px;margin:0 auto;padding:0 20px}
+.nav{position:sticky;top:0;z-index:10;background:color-mix(in oklab,var(--kertas) 90%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--garis)}
+.nav .bekas{display:flex;align-items:center;gap:16px;min-height:60px}
+.jenama{display:flex;align-items:center;gap:10px;font:700 1.1rem var(--muka);text-decoration:none}
+.jenama i{display:grid;place-items:center;width:32px;height:32px;border-radius:9px;background:var(--dakwat);color:var(--kertas);font:700 .75rem var(--muka);font-style:normal}
+.tab{display:flex;gap:6px;margin-left:auto}
+.tab a{padding:8px 14px;border-radius:999px;text-decoration:none;font-weight:500;font-size:.92rem;color:var(--dakwat2)}
+.tab a:hover,.tab a[aria-current]{background:var(--dakwat);color:var(--kertas)}
+@media (max-width:640px){.tab a{padding:6px 10px;font-size:.85rem}.jenama span{display:none}}
+header.kepala{padding:56px 0 24px}
+header.kepala h1{font-size:clamp(2rem,5vw,3rem)}
+header.kepala p{color:var(--dakwat2);max-width:42rem}
+.peranan{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:28px 0 8px}
+.peranan a{display:block;padding:20px;border-radius:18px;border:1px solid var(--garis);background:var(--kad);text-decoration:none;transition:transform .2s ease,box-shadow .2s ease}
+.peranan a:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(0,0,0,.08)}
+.peranan b{display:block;font:600 1.1rem var(--muka);margin-bottom:4px}
+.peranan span{color:var(--dakwat2);font-size:.92rem}
+@media (max-width:700px){.peranan{grid-template-columns:1fr}}
+section{padding:48px 0;border-top:1px solid var(--garis)}
+section>.bekas>h2{font-size:clamp(1.6rem,3.6vw,2.2rem);margin-bottom:6px}
+section>.bekas>p.sub{color:var(--dakwat2);margin:0 0 24px}
+.lencana{display:inline-block;margin-bottom:10px;padding:4px 12px;border-radius:999px;font:500 .8rem var(--teks)}
+.l-pyd{background:var(--aksen-lembut);color:var(--aksen)}.l-pp{background:var(--air-lembut);color:var(--air)}.l-admin{background:var(--hijau-lembut);color:var(--hijau)}
+ol.langkah{list-style:none;margin:0;padding:0;counter-reset:l}
+ol.langkah>li{position:relative;padding:0 0 36px 56px;counter-increment:l}
+ol.langkah>li::before{content:counter(l);position:absolute;left:0;top:0;display:grid;place-items:center;width:38px;height:38px;border-radius:50%;background:var(--dakwat);color:var(--kertas);font:700 1rem var(--muka)}
+ol.langkah>li::after{content:"";position:absolute;left:18px;top:44px;bottom:8px;width:2px;background:var(--garis)}
+ol.langkah>li:last-child::after{display:none}
+ol.langkah h3{font-size:1.2rem;margin:6px 0 6px}
+ol.langkah p{margin:0 0 10px;color:var(--dakwat2)}
+ol.langkah ul{margin:0 0 12px;padding-left:1.2rem;color:var(--dakwat2)}
+figure{margin:12px 0 0}
+figure a{display:block;border-radius:14px;overflow:hidden;border:1px solid var(--garis);background:var(--kad);box-shadow:0 8px 24px rgba(0,0,0,.06)}
+figure img{display:block;width:100%;height:auto}
+figcaption{margin-top:8px;font-size:.85rem;color:var(--redup)}
+.nota{padding:14px 18px;border-radius:14px;background:var(--kertas2);font-size:.95rem}
+kbd,.k{font-family:var(--mono);font-size:.9em;padding:1px 6px;border-radius:6px;background:var(--kertas2);border:1px solid var(--garis)}
+footer{padding:32px 0;color:var(--redup);font-size:.9rem;border-top:1px solid var(--garis)}
+footer .bekas{display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px}
+.muncul{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease}
+.muncul.nampak{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.muncul{opacity:1;transform:none;transition:none}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<nav class="nav" aria-label="Navigasi panduan">
+ <div class="bekas">
+  <a class="jenama" href="./"><i aria-hidden="true">my</i><span>myPBPPP</span></a>
+  <div class="tab"><a href="#pyd">Guru (PYD)</a><a href="#pp">PP1 dan PP2</a><a href="#admin">Admin</a></div>
+ </div>
+</nav>
+
+<header class="kepala">
+ <div class="bekas">
+  <h1>Panduan menggunakan myPBPPP</h1>
+  <p>Langkah demi langkah mengikut peranan. Gambar diambil daripada <a href="demo.html">demo</a>; anda boleh mencuba setiap langkah di sana tanpa log masuk.</p>
+  <div class="peranan">
+   <a href="#pyd"><b>Guru (PYD)</b><span>Tulis sasaran, isi pencapaian, nilai kompetensi, hantar kepada PP.</span></a>
+   <a href="#pp"><b>PP1 dan PP2</b><span>Semak, komen, muktamadkan markah, sahkan, salin skor ke e-Prestasi.</span></a>
+   <a href="#admin"><b>Admin sekolah</b><span>Pasang sistem, daftar guru, buka fasa, pantau dan hantar peringatan.</span></a>
+  </div>
+ </div>
+</header>
+
+<section id="pyd">
+ <div class="bekas">
+  <span class="lencana l-pyd">Guru (PYD)</span>
+  <h2>Guru: dari sasaran hingga penilaian akhir</h2>
+  <p class="sub">Buka pautan myPBPPP sekolah anda dan log masuk dengan akaun moe-dl. Kerja disimpan secara automatik.</p>
+  <ol class="langkah">
+   <li class="muncul">
+    <h3>Lihat apa yang perlu dibuat</h3>
+    <p>Menu <b>Keberhasilan</b> dibuka dengan kad tugas: apa yang perlu dibuat dalam fasa semasa, berapa yang sudah siap, dan butang langkah seterusnya. Jalur di atas menunjukkan fasa sekolah.</p>
+    <figure><a href="panduan/pyd-1-borang.webp"><img loading="lazy" src="panduan/pyd-1-borang.webp" alt="Halaman Keberhasilan dengan kad tugas dan jalur fasa"></a><figcaption>Halaman Keberhasilan semasa fasa Penetapan sasaran.</figcaption></figure>
+   </li>
+   <li class="muncul">
+    <h3>Penetapan: tulis sekurang-kurangnya 5 sasaran</h3>
+    <ul>
+     <li>Pilih atau taip <b>bidang tugas</b>, kemudian tambah sasaran.</li>
+     <li>Guna <b>Pembina sasaran</b> (kata kerja + ukuran + tujuan + peringkat) atau <b>Contoh Penulisan</b> mengikut jawatan dan bidang.</li>
+     <li>Isi <b>nombor sasaran</b> (wajib). Untuk "20 daripada 30 murid", tulis 20.</li>
+     <li>Klik <b>Hantar kepada PP1</b> apabila semua sasaran lengkap.</li>
+    </ul>
+    <figure><a href="panduan/pyd-2-pembina.webp"><img loading="lazy" src="panduan/pyd-2-pembina.webp" alt="Pembina sasaran dengan medan kata kerja, ukuran, tujuan dan peringkat"></a><figcaption>Pembina sasaran membina ayat yang memenuhi formula GPPKK.</figcaption></figure>
+   </li>
+   <li class="muncul">
+    <h3>Penilaian pertama, semakan dan penilaian akhir</h3>
+    <ul>
+     <li><b>Penilaian pertama</b> dan <b>akhir</b>: buka setiap sasaran, isi apa yang dicapai dan bilangan dicapai. Markah dikira serta-merta.</li>
+     <li><b>Semakan sasaran</b>: tanda <b>Kekal</b>, <b>Pinda</b> atau <b>Gugur</b>; tambah sasaran baharu jika perlu.</li>
+     <li>Hantar kepada PP1 pada akhir setiap fasa. Selepas PP1 mengesahkan, borang dikunci bagi fasa itu.</li>
+    </ul>
+    <figure><a href="panduan/pyd-3-pencapaian.webp"><img loading="lazy" src="panduan/pyd-3-pencapaian.webp" alt="Sasaran dengan pencapaian penilaian pertama dan akhir serta markah"></a><figcaption>Pencapaian dan markah setiap penilaian.</figcaption></figure>
+   </li>
+   <li class="muncul">
+    <h3>Kompetensi: nilai kendiri dengan evidens</h3>
+    <ul>
+     <li>Menu <b>Kompetensi</b> dibuka dari fasa Penilaian pertama. Pastikan instrumen betul (PdP, PT(A) atau GBK).</li>
+     <li>Bagi setiap aspek, pilih aras 5 hingga 1. Klik <b>Rubrik</b> untuk membaca huraian setiap aras.</li>
+     <li>Klik <b>Evidens</b> untuk membuka kotak evidens; klik cadangan (dokumen, temu bual, pemerhatian) atau taip sendiri. PP juga boleh menambah evidens dalam kotak yang sama.</li>
+     <li>Ringkasan markah D1, D2, D3 dan jumlah PBPPP dikemas kini semasa anda mengisi. Klik <b>Hantar kepada PP</b> apabila semua aspek dinilai.</li>
+    </ul>
+    <figure><a href="panduan/pyd-4-kompetensi-ringkas.webp"><img loading="lazy" src="panduan/pyd-4-kompetensi-ringkas.webp" alt="Ringkasan markah kompetensi"></a><figcaption>Ringkasan markah kompetensi dan jumlah PBPPP.</figcaption></figure>
+    <figure><a href="panduan/pyd-5-kompetensi-aspek.webp"><img loading="lazy" src="panduan/pyd-5-kompetensi-aspek.webp" alt="Satu aspek kompetensi dengan butang aras dan kotak evidens"></a><figcaption>Pilih aras dan isi evidens bagi setiap aspek.</figcaption></figure>
+   </li>
+   <li class="muncul">
+    <h3>Pratonton dan cetak</h3>
+    <p>Menu <b>Pratonton</b> memaparkan borang Keberhasilan mengikut format cetakan. Klik <b>Cetak</b> atau simpan sebagai PDF. Borang Skor kompetensi dicetak dari menu Kompetensi.</p>
+    <figure><a href="panduan/pyd-6-pratonton.webp"><img loading="lazy" src="panduan/pyd-6-pratonton.webp" alt="Pratonton borang Keberhasilan"></a><figcaption>Pratonton cetakan borang Keberhasilan.</figcaption></figure>
+   </li>
+  </ol>
+ </div>
+</section>
+
+<section id="pp">
+ <div class="bekas">
+  <span class="lencana l-pp">PP1 dan PP2</span>
+  <h2>PP: semak, nilai dan sahkan</h2>
+  <p class="sub">Menu <b>Papan PP</b> muncul jika anda PP1 atau PP2 kepada sekurang-kurangnya seorang guru.</p>
+  <ol class="langkah">
+   <li class="muncul">
+    <h3>Lihat semua PYD di satu skrin</h3>
+    <p>Senarai PYD dengan kelengkapan, skor penilaian pertama dan akhir, status pengesahan dan status kompetensi. Klik <b>Keberhasilan</b> atau <b>Kompetensi</b> untuk membuka rekod.</p>
+    <figure><a href="panduan/pp-1-papan.webp"><img loading="lazy" src="panduan/pp-1-papan.webp" alt="Papan PP dengan senarai PYD"></a><figcaption>Papan PP.</figcaption></figure>
+   </li>
+   <li class="muncul">
+    <h3>Semak borang keberhasilan dan sahkan</h3>
+    <ul>
+     <li>Baca sasaran dan pencapaian; tulis <b>komen</b> atau <b>catatan PP</b>.</li>
+     <li>PP1 boleh mengisi <b>markah muktamad</b> (kosongkan untuk menggunakan markah dikira).</li>
+     <li>Klik <b>Sahkan borang ini</b>. Skor akhir disalin ke item A1.1 Keberhasilan dalam e-Prestasi dengan butang <b>Salin skor</b>.</li>
+    </ul>
+    <figure><a href="panduan/pp-2-borang.webp"><img loading="lazy" src="panduan/pp-2-borang.webp" alt="Borang PYD dibuka oleh PP dengan skor untuk e-Prestasi"></a><figcaption>Skor untuk e-Prestasi dan rekod pengesahan.</figcaption></figure>
+    <figure><a href="panduan/pp-3-markah.webp"><img loading="lazy" src="panduan/pp-3-markah.webp" alt="Sasaran dengan medan markah muktamad PP1"></a><figcaption>Markah muktamad dan catatan PP bagi setiap sasaran.</figcaption></figure>
+   </li>
+   <li class="muncul">
+    <h3>Nilai kompetensi PYD</h3>
+    <ul>
+     <li>Tambah evidens daripada <b>temu bual</b>, <b>pemerhatian</b> atau <b>pencerapan</b> dalam kotak evidens yang sama dengan PYD.</li>
+     <li>Selepas PYD menghantar, pilih aras lain untuk mengubah aras muktamad dan nyatakan sebab dalam <b>Catatan PP</b>.</li>
+     <li>Klik <b>Pulangkan</b> jika perlu pembetulan. PP2 mengesahkan dahulu, kemudian PP1; rekod dikunci selepas PP1 mengesahkan.</li>
+    </ul>
+    <figure><a href="panduan/pp-4-kompetensi.webp"><img loading="lazy" src="panduan/pp-4-kompetensi.webp" alt="Rekod kompetensi PYD dibuka oleh PP"></a><figcaption>Rekod kompetensi PYD.</figcaption></figure>
+    <figure><a href="panduan/pp-5-kompetensi-aspek.webp"><img loading="lazy" src="panduan/pp-5-kompetensi-aspek.webp" alt="Aspek kompetensi dengan aras PYD dan aras muktamad PP"></a><figcaption>Aras PYD (atas) dan aras muktamad PP (bawah).</figcaption></figure>
+   </li>
+  </ol>
+ </div>
+</section>
+
+<section id="admin">
+ <div class="bekas">
+  <span class="lencana l-admin">Admin sekolah</span>
+  <h2>Admin: pasang, daftar dan pantau</h2>
+  <p class="sub">Admin ialah orang yang mengaktifkan sistem, dan sesiapa yang ditambah dalam senarai e-mel admin.</p>
+  <ol class="langkah">
+   <li class="muncul">
+    <h3>Pasang sistem (sekali sahaja, kira-kira 15 minit)</h3>
+    <ul>
+     <li><a href="./#daftar">Daftar sekolah</a>: bayar yuran sekali bayar melalui QR atau pindahan, muat naik resit, dan isi maklumat sekolah. Emel berserta pautan salinan dan langkah dihantar kepada anda serta-merta.</li>
+     <li>Buka pautan salinan dengan akaun moe-dl dan klik <b>Buat salinan</b>.</li>
+     <li>Dalam Sheet: <span class="k">Extensions</span> &gt; <span class="k">Apps Script</span> &gt; <span class="k">Deploy</span> &gt; <span class="k">New deployment</span> &gt; <span class="k">Web app</span>. Execute as: <b>Me</b>, Who has access: <b>Anyone</b>. Klik Deploy dan benarkan akses.</li>
+     <li>Buka URL web app dan masukkan <b>kod sekolah</b>. Tab data, contoh sasaran dan instrumen dimuatkan automatik.</li>
+    </ul>
+   </li>
+   <li class="muncul">
+    <h3>Dashboard sekolah</h3>
+    <p>Kemajuan setiap fasa, taburan skor dan guru yang belum menghantar.</p>
+    <figure><a href="panduan/admin-1-dashboard.webp"><img loading="lazy" src="panduan/admin-1-dashboard.webp" alt="Dashboard admin"></a><figcaption>Dashboard.</figcaption></figure>
+   </li>
+   <li class="muncul">
+    <h3>Buka fasa dan tetapkan tarikh tutup</h3>
+    <p>Di tab <b>Sekolah dan fasa</b>, klik fasa untuk membukanya (klik sekali lagi untuk mengesahkan). Tetapkan tarikh tutup untuk peringatan e-mel. Nama dan kod sekolah ditetapkan oleh pusat lesen.</p>
+    <figure><a href="panduan/admin-2-fasa.webp"><img loading="lazy" src="panduan/admin-2-fasa.webp" alt="Tetapan sekolah dan fasa"></a><figcaption>Sekolah dan fasa.</figcaption></figure>
+   </li>
+   <li class="muncul">
+    <h3>Daftar guru, PP1 dan PP2</h3>
+    <p>Tambah guru satu demi satu di tab <b>Guru</b>, atau tampal senarai dari Excel di tab <b>Import guru</b> (disemak dahulu sebelum disimpan). Tetapkan PP1 dan PP2 bagi setiap guru, dan tandakan jawatan yang ada di sekolah di tab <b>Jawatan</b>.</p>
+    <figure><a href="panduan/admin-3-guru.webp"><img loading="lazy" src="panduan/admin-3-guru.webp" alt="Senarai guru"></a><figcaption>Senarai guru dengan PP1 dan PP2.</figcaption></figure>
+    <figure><a href="panduan/admin-4-import.webp"><img loading="lazy" src="panduan/admin-4-import.webp" alt="Import guru dari Excel"></a><figcaption>Import guru dari Excel.</figcaption></figure>
+   </li>
+   <li class="muncul">
+    <h3>Hantar peringatan e-mel</h3>
+    <p>Pratonton e-mel kepada guru yang belum siap dan PP yang ada borang menunggu, hantar sekarang, atau hidupkan peringatan harian automatik sebelum tarikh tutup.</p>
+    <figure><a href="panduan/admin-5-peringatan.webp"><img loading="lazy" src="panduan/admin-5-peringatan.webp" alt="Peringatan e-mel"></a><figcaption>Peringatan e-mel.</figcaption></figure>
+   </li>
+  </ol>
+  <p class="nota">Kongsi URL web app sekolah kepada semua guru. Guru yang tidak didaftarkan oleh admin tidak boleh membuka sistem.</p>
+ </div>
+</section>
+
+<footer><div class="bekas"><span><a href="./">myPBPPP</a> · <a href="demo.html">Cuba demo</a> · <a href="./#daftar">Daftar sekolah</a></span><span>Pertanyaan: <a href="mailto:cikgujep@gmail.com">cikgujep@gmail.com</a></span></div></footer>
+<script>
+(function () {
+  var el = document.querySelectorAll('.muncul');
+  if (!('IntersectionObserver' in window)) { [].forEach.call(el, function (e) { e.classList.add('nampak'); }); return; }
+  var io = new IntersectionObserver(function (s) { s.forEach(function (x) { if (x.isIntersecting) { x.target.classList.add('nampak'); io.unobserve(x.target); } }); }, { rootMargin: '0px 0px -8% 0px' });
+  [].forEach.call(el, function (e) { io.observe(e); });
+  var tab = document.querySelectorAll('.tab a'), sek = ['pyd', 'pp', 'admin'].map(function (i) { return document.getElementById(i); });
+  addEventListener('scroll', function () {
+    var aktif = sek.filter(function (s) { return s.getBoundingClientRect().top < 120; }).pop();
+    [].forEach.call(tab, function (a) { if (aktif && a.getAttribute('href') === '#' + aktif.id) a.setAttribute('aria-current', 'true'); else a.removeAttribute('aria-current'); });
+  }, { passive: true });
+})();
+</script>
+</body>
+</html>

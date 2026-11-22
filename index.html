@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <title>myPBPPP: Keberhasilan dan Kompetensi PBPPP dalam satu sistem</title>
 <meta property="og:title" content="myPBPPP: Keberhasilan dan Kompetensi PBPPP dalam satu sistem">
-<meta name="description" content="Sistem percuma untuk sekolah: borang Keberhasilan dan penilaian Kompetensi PBPPP, PP1 dan PP2 menilai dalam talian, markah dan Borang Skor dikira automatik.">
+<meta name="description" content="Sistem untuk sekolah, yuran sekali bayar: borang Keberhasilan dan penilaian Kompetensi PBPPP, PP1 dan PP2 menilai dalam talian, markah dan Borang Skor dikira automatik.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@600;700&family=Red+Hat+Text:wght@400;500&family=Red+Hat+Mono:wght@500&display=swap">
@@ -159,11 +159,24 @@ input.mono{text-transform:uppercase}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
 .perangkap{position:absolute!important;left:-9999px}
 .kopi-borang{background:linear-gradient(160deg,var(--aksen-lembut),var(--kad) 70%)}
-.akaun-baris{display:flex;align-items:center;gap:16px;padding:16px;border-radius:16px;background:var(--kad)}
-.akaun-baris div{flex:1;display:grid}
-.akaun-baris small{color:var(--redup)}
-.akaun-baris b{font-size:1.4rem}
-.qr-kecil{width:84px;height:auto;border-radius:10px;border:1px solid var(--garis);background:#fff}
+.akaun-baris{display:grid;grid-template-columns:240px 1fr;gap:24px;align-items:center;padding:20px;border-radius:18px;background:var(--kad)}
+.akaun-teks{display:grid;gap:6px}
+.akaun-teks small{color:var(--redup)}
+.akaun-teks b{font-size:1.6rem}
+.akaun-teks .butang{justify-self:start;margin-top:6px}
+.qr-besar{display:block;border-radius:14px;overflow:hidden;border:1px solid var(--garis);background:#fff;transition:transform .2s ease}
+.qr-besar:hover{transform:scale(1.02)}
+.qr-besar img{display:block;width:100%;height:auto}
+.jumlah-pilih{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.jumlah-pilih button{position:relative;display:grid;gap:2px;justify-items:center;min-height:72px;padding:10px 6px;border:1px solid var(--garis);border-radius:14px;background:var(--kad);color:var(--dakwat);font:600 1.1rem var(--muka);cursor:pointer;transition:transform .15s ease,border-color .15s ease,background-color .15s ease}
+.jumlah-pilih button small{font:400 .78rem var(--teks);color:var(--redup)}
+.jumlah-pilih button:hover{transform:translateY(-2px);border-color:var(--aksen)}
+.jumlah-pilih button[aria-pressed="true"]{background:var(--aksen);border-color:var(--aksen);color:#fff}
+.jumlah-pilih button[aria-pressed="true"] small{color:#fff}
+.jumlah-pilih .syor{border:2px solid var(--aksen)}
+.jumlah-pilih .syor::before{content:"Disyorkan";position:absolute;top:-11px;left:50%;transform:translateX(-50%);padding:1px 10px;border-radius:999px;background:var(--aksen);color:#fff;font:600 .7rem var(--teks);white-space:nowrap}
+.jumlah-lain[hidden]{display:none}
+@media (max-width:700px){.akaun-baris{grid-template-columns:1fr;justify-items:center;text-align:center}.qr-besar{max-width:260px;width:100%}.akaun-teks .butang{justify-self:center}.jumlah-pilih{grid-template-columns:repeat(2,1fr);row-gap:16px}}
 .fail{position:relative;display:flex;align-items:center;min-height:52px;padding:0 16px;border:2px dashed var(--garis);border-radius:14px;color:var(--dakwat2);cursor:pointer}
 .fail input{position:absolute;inset:0;opacity:0;cursor:pointer}
 .fail:focus-within{outline:2px solid var(--aksen);outline-offset:1px}
@@ -175,6 +188,81 @@ input.mono{text-transform:uppercase}
 .butang[disabled]{opacity:.65;cursor:progress;transform:none}
 .berjaya{margin-top:28px;border-color:var(--hijau)}
 @media (max-width:700px){.grid2{grid-template-columns:1fr}.kad-borang{padding:20px}.akaun-baris{flex-wrap:wrap}}
+/* Pakej satu kad */
+.pakej-satu{display:grid;grid-template-columns:auto 1fr auto;gap:32px;align-items:center;margin-top:28px;padding:32px;border-radius:24px;border:1px solid var(--garis);background:var(--kad)}
+.pakej-satu ul{margin:0;padding:0;list-style:none;columns:2;column-gap:28px}
+.pakej-satu li{padding:5px 0 5px 26px;position:relative;break-inside:avoid}
+.pakej-satu li::before{content:"✓";position:absolute;left:0;color:var(--hijau);font-weight:700}
+.pakej-cta{display:grid;gap:10px;max-width:15rem}
+.pakej-cta small{color:var(--redup)}
+@media (max-width:900px){.pakej-satu{grid-template-columns:1fr}.pakej-satu ul{columns:1}.pakej-cta{max-width:none}}
+/* Kad panduan */
+.panduan-kad{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:28px}
+.panduan-kad a{position:relative;display:grid;gap:10px;align-content:start;padding:26px 24px 44px;border-radius:20px;border:1px solid var(--garis);background:var(--kad);text-decoration:none}
+.panduan-kad .pil{justify-self:start}
+.panduan-kad b{font:600 1.15rem/1.3 var(--muka)}
+.panduan-kad i{position:absolute;right:22px;bottom:18px;font-style:normal;font-size:1.3rem;color:var(--aksen);transition:transform .25s ease}
+.panduan-kad a:hover i{transform:translateX(6px)}
+@media (max-width:760px){.panduan-kad{grid-template-columns:1fr}}
+/* Animasi */
+@keyframes naik{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+@keyframes apung{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+@keyframes denyut{0%,100%{box-shadow:0 0 0 0 color-mix(in oklab,var(--aksen) 45%,transparent)}70%{box-shadow:0 0 0 12px transparent}}
+.hero h1,.hero .lencana,.hero p.sub,.hero .cta{animation:naik .8s cubic-bezier(.16,1,.3,1) both}
+.hero .lencana{animation-delay:.05s}.hero h1{animation-delay:.15s}.hero p.sub{animation-delay:.3s}.hero .cta{animation-delay:.45s}
+.mock{animation:naik 1s .35s cubic-bezier(.16,1,.3,1) both,apung 6s 1.5s ease-in-out infinite}
+.mock .baris{animation:naik .6s cubic-bezier(.16,1,.3,1) both}
+.mock .baris:nth-of-type(1){animation-delay:.8s}.mock .baris:nth-of-type(2){animation-delay:1s}.mock .baris:nth-of-type(3){animation-delay:1.2s}
+.mock .skor{animation:naik .6s 1.4s cubic-bezier(.16,1,.3,1) both}
+.mock .fasa span.ini{animation:denyut 2.4s 2s ease-out infinite}
+.nav .butang.utama{animation:denyut 2.6s 3s ease-out infinite}
+.muncul{opacity:0;transform:translateY(26px);transition:opacity .7s cubic-bezier(.16,1,.3,1),transform .7s cubic-bezier(.16,1,.3,1)}
+.muncul.nampak{opacity:1;transform:none}
+.banding tbody tr.muncul{transform:translateX(-16px)}
+.banding tbody tr.muncul.nampak{transform:none}
+.langkah div,.panduan-kad a{transition:opacity .7s cubic-bezier(.16,1,.3,1),transform .35s ease,box-shadow .25s ease}
+.langkah div.nampak:hover,.panduan-kad a.nampak:hover{transform:translateY(-4px);box-shadow:0 14px 36px rgba(28,26,23,.10)}
+.panel-modul:not([hidden]){animation:naik .5s cubic-bezier(.16,1,.3,1) both}
+.kalk .hasil b{display:inline-block;transition:transform .2s ease}
+.kalk .hasil b.lompat{transform:scale(1.08)}
+.fakta b{font-variant-numeric:tabular-nums}
+.bar-baca{position:fixed;top:0;left:0;right:0;height:3px;z-index:30;background:var(--aksen);transform-origin:0 50%;transform:scaleX(0)}
+@media (prefers-reduced-motion:reduce){.hero h1,.hero .lencana,.hero p.sub,.hero .cta,.mock,.mock .baris,.mock .skor,.mock .fasa span.ini,.nav .butang.utama,.panel-modul:not([hidden]){animation:none!important}.muncul{opacity:1!important;transform:none!important;transition:none!important}.bar-baca{display:none}}
+/* Langkah daftar */
+#langkah-1,#langkah-2{display:grid;gap:18px}
+.kopi-langkah{position:relative;overflow:hidden;display:grid;gap:18px;padding:36px;border-radius:28px;background:linear-gradient(150deg,#1f2f6b,#22357a 55%,#2b2a5e);color:#fff}
+.kopi-langkah::after{content:"";position:absolute;right:-90px;top:-90px;width:260px;height:260px;border-radius:50%;background:rgba(255,255,255,.08);pointer-events:none}
+.kopi-langkah .langkah-no{color:#f5c84b}
+.kopi-tajuk{font:700 clamp(1.8rem,4vw,2.6rem)/1.1 var(--muka);color:#fff;margin:0}
+.kopi-sub{margin:0;color:rgba(255,255,255,.85);max-width:40rem}
+.kopi-langkah .akaun-baris{background:rgba(255,255,255,.08);color:#fff}
+.kopi-langkah .akaun-teks small,.kopi-langkah label small{color:rgba(255,255,255,.7)}
+.kopi-langkah .akaun-teks b{color:#f5c84b}
+.kopi-langkah .butang:not(.kuning){background:transparent;color:#fff;border-color:rgba(255,255,255,.5)}
+.kopi-langkah label,.kopi-langkah span{color:#fff}
+.kopi-langkah .pilihan{background:rgba(255,255,255,.14);color:rgba(255,255,255,.85)}
+.kopi-langkah .jumlah-pilih button{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.25);color:#fff}
+.kopi-langkah .jumlah-pilih button small{color:rgba(255,255,255,.75)}
+.kopi-langkah .jumlah-pilih button[aria-pressed="true"]{background:#f5c84b;border-color:#f5c84b;color:#1f2f6b}
+.kopi-langkah .jumlah-pilih button[aria-pressed="true"] small{color:#1f2f6b}
+.kopi-langkah .jumlah-pilih .syor{border-color:#f5c84b}
+.kopi-langkah .jumlah-pilih .syor::before{background:#f5c84b;color:#1f2f6b}
+.kopi-langkah label{display:flex;flex-wrap:wrap;align-items:center;gap:8px 4px;font-weight:500}
+.kopi-langkah label>input,.kopi-langkah label>small,.kopi-langkah label>.fail{flex:1 1 100%}
+.kopi-langkah input:not([type=file]){width:100%;min-height:52px;padding:0 16px;border:1px solid transparent;border-radius:14px;background:rgba(255,255,255,.95)!important;color:#1c1a17!important;font:400 1rem var(--teks)}
+.kopi-langkah input:not([type=file]):focus-visible{outline:2px solid #f5c84b;outline-offset:1px}
+.kopi-langkah .fail{border-color:rgba(255,255,255,.35);color:#fff}
+.kopi-seterus{display:flex;flex-wrap:wrap;align-items:center;justify-content:flex-end;gap:14px 20px;margin-top:6px}
+.kopi-seterus span{font-weight:500;color:#fff}
+.butang.kuning{min-height:54px;padding:0 28px;background:#f5c84b;border-color:#f5c84b;color:#1f2f6b;font-weight:700;font-size:1.05rem}
+.langkah-no{font:600 .82rem var(--teks);letter-spacing:.06em;text-transform:uppercase;color:var(--aksen)}
+.langkah-atas{display:flex;flex-wrap:wrap;align-items:center;gap:12px 16px}
+.kopi-ringkas{margin-left:auto;padding:6px 14px;border-radius:999px;background:var(--hijau-lembut);color:var(--hijau);font-weight:500;font-size:.9rem}
+@media (max-width:700px){.kopi-langkah{padding:24px}.kopi-seterus{justify-content:stretch}.kopi-seterus .butang{width:100%}}
+.harga-lama{font-size:.55em;color:var(--redup);margin-right:8px}
+.harga-tamat{display:block;margin-top:6px;padding:4px 12px;border-radius:999px;background:var(--aksen-lembut);color:var(--aksen);font-size:.85rem;font-weight:500;width:max-content;max-width:100%}
+.ralat-langkah{font-weight:500;color:#fff}
+.ralat-langkah.ralat{color:#ffd166}
 /* Penutup */
 .penutup{text-align:center;padding:96px 0;background:var(--kertas2)}
 .penutup h2{max-width:38rem;margin:0 auto 14px}
@@ -188,6 +276,7 @@ footer .bekas{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px
 </style>
 </head>
 <body>
+<div class="bar-baca" id="bar-baca" aria-hidden="true"></div>
 <nav class="nav" aria-label="Navigasi utama">
  <div class="bekas">
   <a class="jenama" href="#atas"><i aria-hidden="true">my</i>myPBPPP</a>
@@ -196,7 +285,7 @@ footer .bekas{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px
    <li><a href="#modul">Modul</a></li>
    <li><a href="#kalkulator">Kalkulator</a></li>
    <li><a href="#mula">Cara mula</a></li>
-   <li><a href="#kopi">Belanja kopi</a></li>
+   <li><a href="#panduan">Panduan</a></li>
    <li><a href="#daftar">Daftar</a></li>
    <li><a href="#soalan">Soalan lazim</a></li>
   </ul>
@@ -208,7 +297,7 @@ footer .bekas{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px
 <section class="hero">
  <div class="bekas">
   <div>
-   <span class="lencana">Percuma untuk semua sekolah</span>
+   <span class="lencana">Yuran sekali bayar <b class="harga-kini">RM25</b><span class="hanya-awal">&nbsp;hingga 28 Februari 2027</span></span>
    <h1>Keberhasilan dan Kompetensi PBPPP, <em>siap dalam satu sistem.</em></h1>
    <p class="sub">Guru menulis sasaran dengan bimbingan contoh GPPKK, PP1 dan PP2 menilai dalam talian, dan markah serta Borang Skor dikira secara automatik. Terus dari telefon atau komputer.</p>
    <div class="cta">
@@ -227,12 +316,12 @@ footer .bekas{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px
  </div>
 </section>
 
-<div class="fakta">
+<div class="fakta muncul">
  <div class="bekas">
   <div><b>700+</b><span>contoh sasaran GPPKK Bab 8 dan contoh sekolah, ikut jawatan dan bidang</span></div>
   <div><b>3</b><span>instrumen kompetensi lengkap dengan rubrik: PdP, PT(A) dan GBK</span></div>
   <div><b>4</b><span>fasa penilaian dalam satu aliran, dengan pengesahan PYD, PP1 dan PP2</span></div>
-  <div><b>RM0</b><span>percuma. Data kekal dalam Google Sheet sekolah anda sendiri</span></div>
+  <div><b class="harga-kini">RM25</b><span>sekali bayar untuk satu sekolah. Data kekal dalam Google Sheet sekolah anda sendiri</span></div>
  </div>
 </div>
 
@@ -240,16 +329,16 @@ footer .bekas{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px
  <div class="bekas">
   <span class="label">Sebelum dan selepas</span>
   <h2>Tiada lagi fail Excel berasingan untuk setiap guru.</h2>
-  <div class="banding">
+  <div class="banding muncul">
    <table>
     <thead><tr><th>Perkara</th><th>Cara lama</th><th>Dengan myPBPPP</th></tr></thead>
     <tbody>
-     <tr><td>Menulis sasaran</td><td>Guru meneka format; banyak sasaran perlu ditulis semula</td><td>Formula dan 700+ contoh mengikut jawatan; amaran jika ukuran atau tujuan tiada</td></tr>
-     <tr><td>Pengiraan markah</td><td>Dikira manual, mudah tersilap formula</td><td>Markah, purata dan skor dikira automatik mengikut Jadual 7.3</td></tr>
-     <tr><td>Semakan PP</td><td>Fail berpindah tangan melalui e-mel dan WhatsApp</td><td>PP1 dan PP2 semak, komen dan sahkan di satu tempat</td></tr>
-     <tr><td>Kompetensi</td><td>Rubrik dalam PDP berpuluh muka surat</td><td>Rubrik setiap aras di sebelah butang; evidens PYD dan PP dalam satu kotak</td></tr>
-     <tr><td>Cetakan</td><td>Salin satu per satu ke borang</td><td>Borang Keberhasilan dan Borang Skor sedia cetak dalam satu klik</td></tr>
-     <tr><td>Pemantauan</td><td>Admin bertanya guru seorang demi seorang</td><td>Dashboard sekolah dan peringatan e-mel automatik sebelum tarikh tutup</td></tr>
+     <tr class="muncul"><td>Menulis sasaran</td><td>Guru meneka format; banyak sasaran perlu ditulis semula</td><td>Formula dan 700+ contoh mengikut jawatan; amaran jika ukuran atau tujuan tiada</td></tr>
+     <tr class="muncul"><td>Pengiraan markah</td><td>Dikira manual, mudah tersilap formula</td><td>Markah, purata dan skor dikira automatik mengikut Jadual 7.3</td></tr>
+     <tr class="muncul"><td>Semakan PP</td><td>Fail berpindah tangan melalui e-mel dan WhatsApp</td><td>PP1 dan PP2 semak, komen dan sahkan di satu tempat</td></tr>
+     <tr class="muncul"><td>Kompetensi</td><td>Rubrik dalam PDP berpuluh muka surat</td><td>Rubrik setiap aras di sebelah butang; evidens PYD dan PP dalam satu kotak</td></tr>
+     <tr class="muncul"><td>Cetakan</td><td>Salin satu per satu ke borang</td><td>Borang Keberhasilan dan Borang Skor sedia cetak dalam satu klik</td></tr>
+     <tr class="muncul"><td>Pemantauan</td><td>Admin bertanya guru seorang demi seorang</td><td>Dashboard sekolah dan peringatan e-mel automatik sebelum tarikh tutup</td></tr>
     </tbody>
    </table>
   </div>
@@ -302,7 +391,7 @@ footer .bekas{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px
  <div class="bekas">
   <span class="label">Kalkulator</span>
   <h2>Berapa banyak masa sekolah anda boleh jimat?</h2>
-  <div class="kalk">
+  <div class="kalk muncul">
    <div>
     <label for="k-guru">Bilangan guru <span id="v-guru">60</span></label>
     <input type="range" id="k-guru" min="10" max="200" step="5" value="60">
@@ -320,36 +409,37 @@ footer .bekas{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px
   <span class="label">Cara mula</span>
   <h2>Tiga langkah, kurang 15 minit.</h2>
   <div class="langkah">
-   <div><h3>Daftar dan salin templat</h3><p>Isi borang daftar. Pautan templat dihantar ke emel anda; pilih "Buat salinan". Sheet sekolah anda disimpan dalam Drive akaun sekolah anda sendiri.</p></div>
-   <div><h3>Terbitkan aplikasi</h3><p>Dalam Sheet, buka Extensions &gt; Apps Script &gt; Deploy &gt; New deployment &gt; Web app. Panduan bergambar disediakan.</p></div>
-   <div><h3>Masukkan kod sekolah</h3><p>Buka pautan aplikasi dan masukkan kod sekolah anda. Nama sekolah, contoh sasaran dan instrumen dimuatkan automatik. Daftarkan guru, dan mula.</p></div>
+   <div class="muncul"><h3>Daftar dan salin templat</h3><p>Isi borang daftar. Pautan templat dihantar ke emel anda; pilih "Buat salinan". Sheet sekolah anda disimpan dalam Drive akaun sekolah anda sendiri.</p></div>
+   <div class="muncul"><h3>Terbitkan aplikasi</h3><p>Dalam Sheet, buka Extensions &gt; Apps Script &gt; Deploy &gt; New deployment &gt; Web app. Panduan bergambar disediakan.</p></div>
+   <div class="muncul"><h3>Masukkan kod sekolah</h3><p>Buka pautan aplikasi dan masukkan kod sekolah anda. Nama sekolah, contoh sasaran dan instrumen dimuatkan automatik. Daftarkan guru, dan mula.</p></div>
   </div>
  </div>
 </section>
 
-<section id="kopi" style="padding-top:0">
+<section id="pakej" style="padding-top:0">
  <div class="bekas">
   <span class="label">Pakej</span>
-  <h2>Percuma. Jika membantu, belanja pembangun secawan kopi.</h2>
-  <div class="pakej">
+  <h2>Sekali bayar. Tiada yuran tahunan.</h2>
+  <div class="pakej-satu muncul">
    <div>
     <h3>myPBPPP untuk sekolah</h3>
-    <div class="harga">RM0</div><span class="sub">Semua modul, setiap tahun</span>
-    <ul><li>Keberhasilan: penetapan hingga penilaian akhir</li><li>Kompetensi PdP, PT(A) dan GBK</li><li>Papan PP, Dashboard dan peringatan e-mel</li><li>Cetakan Borang Keberhasilan dan Borang Skor</li><li>Kemas kini sistem diteruskan</li></ul>
+    <div class="harga"><span class="hanya-awal"><del class="harga-lama">RM40</del> </span><span class="harga-kini">RM25</span></div><span class="sub">Sekali bayar, satu sekolah, semua modul</span><span class="hanya-awal"><span class="harga-tamat">Harga awal hingga 28 Februari 2027 · <b id="baki-hari"></b></span></span>
    </div>
-   <div class="kopi">
-    <h3>Belanja kopi ☕</h3>
-    <p class="sub" style="margin:10px 0 0">Sumbangan anda membantu pembangun terus menyelenggara myPBPPP dan membina sistem lain untuk sekolah. Tiada jumlah minimum.</p>
-    <div class="kopi-isi">
-     <div class="qr"><img src="qr-maybank.png" alt="Kod QR Maybank QRPay untuk sumbangan" onerror="this.parentNode.className='qr-kosong';this.parentNode.textContent='Kod QR Maybank QRPay'"></div>
-     <div class="akaun">
-      <small>Maybank</small>
-      <b id="no-akaun">151043879403</b>
-      <small>Imbas QR atau pindahan ke akaun ini</small>
-      <button class="butang" type="button" id="salin">Salin nombor akaun</button>
-     </div>
-    </div>
-   </div>
+   <ul><li>Keberhasilan: penetapan hingga penilaian akhir</li><li>Kompetensi PdP, PT(A) dan GBK</li><li>Papan PP, Dashboard dan peringatan e-mel</li><li>Cetakan Borang Keberhasilan dan Borang Skor</li><li>Kemas kini sistem diteruskan</li></ul>
+   <div class="pakej-cta"><a class="butang utama" href="#daftar">Daftar sekolah</a><small>Bayar melalui QR Maybank atau pindahan bank semasa mendaftar. Lesen aktif sebaik borang dihantar.</small></div>
+  </div>
+ </div>
+</section>
+
+<section id="panduan" style="padding-top:0">
+ <div class="bekas">
+  <span class="label">Panduan</span>
+  <h2>Panduan bergambar mengikut peranan.</h2>
+  <p class="sub" style="max-width:40rem">Langkah demi langkah dengan tangkapan skrin sebenar. Setiap langkah boleh dicuba dalam demo.</p>
+  <div class="panduan-kad">
+   <a class="muncul" href="https://cikgujep.github.io/mypbppp/panduan.html#pyd"><span class="pil o">Guru (PYD)</span><b>Tulis sasaran, isi pencapaian, nilai kompetensi</b><span class="sub">5 langkah</span><i aria-hidden="true">→</i></a>
+   <a class="muncul" href="https://cikgujep.github.io/mypbppp/panduan.html#pp"><span class="pil a">PP1 dan PP2</span><b>Semak, muktamadkan markah, sahkan</b><span class="sub">3 langkah</span><i aria-hidden="true">→</i></a>
+   <a class="muncul" href="https://cikgujep.github.io/mypbppp/panduan.html#admin"><span class="pil h">Admin</span><b>Pasang, daftar guru, buka fasa, peringatan</b><span class="sub">5 langkah</span><i aria-hidden="true">→</i></a>
   </div>
  </div>
 </section>
@@ -358,9 +448,33 @@ footer .bekas{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px
  <div class="bekas sempit">
   <span class="label">Daftar</span>
   <h2>Daftar sekolah anda</h2>
-  <p class="sub" style="margin:12px 0 0">Percuma. Isi sekali untuk setiap sekolah. Sebaik dihantar, anda terus menerima emel berserta kod sekolah, pautan salinan sistem dan langkah pemasangan.</p>
+  <p class="sub" style="margin:12px 0 0">Yuran sekali bayar <b class="harga-kini">RM25</b> untuk satu sekolah. Isi sekali sahaja. Sebaik dihantar, anda terus menerima emel berserta kod sekolah, pautan salinan sistem dan langkah pemasangan.</p>
   <form id="borang-daftar" novalidate>
-   <div class="kad-borang">
+  <div id="langkah-1">
+   <div class="kopi-langkah muncul">
+    <span class="langkah-no">Langkah 1 daripada 2: bayaran</span>
+    <h3 class="kopi-tajuk">Bayar yuran <span class="harga-kini">RM25</span>, sekali sahaja.</h3>
+    <p class="kopi-sub">Satu bayaran untuk satu sekolah: semua modul, kemas kini sistem diteruskan, tiada yuran tahunan.<span class="hanya-awal"> Harga awal hingga 28 Februari 2027; RM40 mulai 1 Mac 2027.</span> Imbas QR atau pindahan, kemudian muat naik resit.</p>
+    <div class="akaun-baris">
+     <a class="qr-besar" href="https://cikgujep.github.io/mypbppp/qr-maybank.png" target="_blank" rel="noopener" title="Buka QR dalam saiz penuh"><img src="https://cikgujep.github.io/mypbppp/qr-maybank.png" alt="Kod QR Maybank QRPay untuk bayaran yuran" onerror="this.parentNode.remove()"></a>
+     <div class="akaun-teks"><small>Imbas QR dengan aplikasi bank, atau pindahan ke akaun Maybank</small><b class="mono">151043879403</b>
+      <button class="butang" type="button" data-salin="151043879403">Salin no. akaun</button></div>
+    </div>
+    <div class="grid2">
+     <label>Jumlah dibayar (RM) <b class="wajib" aria-hidden="true">*</b><input name="jumlah" inputmode="decimal" maxlength="8" required placeholder="25" value="25"></label>
+     <label>Resit pembayaran <b class="wajib" aria-hidden="true">*</b>
+      <span class="fail"><input type="file" name="resit" accept="image/*,application/pdf"><span class="fail-teks">↑ Pilih gambar atau PDF</span></span>
+      <small>Maksimum 5MB</small></label>
+    </div>
+    <div class="kopi-seterus">
+     <span class="ralat-langkah" id="ralat-langkah1" role="alert">Resit diperlukan untuk mengaktifkan lesen sekolah.</span>
+     <button class="butang kuning" type="button" id="ke-langkah-2">Seterusnya →</button>
+    </div>
+   </div>
+  </div>
+  <div id="langkah-2" hidden>
+   <div class="langkah-atas"><button class="butang" type="button" id="ke-langkah-1">← Kembali</button><span class="langkah-no">Langkah 2 daripada 2: maklumat sekolah</span><span class="kopi-ringkas" id="kopi-ringkas" hidden></span></div>
+   <div class="kad-borang muncul">
     <h3><i>1</i>Maklumat sekolah</h3>
     <div class="grid2">
      <label>Kod sekolah <b class="wajib" aria-hidden="true">*</b>
@@ -372,7 +486,7 @@ footer .bekas{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px
     <label>Nama sekolah <b class="wajib" aria-hidden="true">*</b><input name="nama" required maxlength="120" placeholder="Nama penuh sekolah"></label>
     <div class="grid2"><label>Anggaran bilangan guru <span class="pilihan">pilihan</span><input name="bilGuru" inputmode="numeric" maxlength="4" placeholder="Contoh: 80"></label></div>
    </div>
-   <div class="kad-borang">
+   <div class="kad-borang muncul">
     <h3><i>2</i>Maklumat pemohon</h3>
     <label>Nama penuh <b class="wajib" aria-hidden="true">*</b><input name="pemohon" required maxlength="100" autocomplete="name" placeholder="Nama seperti dalam kad pengenalan"></label>
     <div class="grid2">
@@ -384,26 +498,12 @@ footer .bekas{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px
      <small id="b-emel">Kod sekolah, pautan salinan dan langkah pemasangan dihantar ke emel ini. Akaun ini juga digunakan untuk pemasangan.</small></label>
     <label class="perangkap" aria-hidden="true">Laman web<input name="laman" tabindex="-1" autocomplete="off"></label>
    </div>
-   <div class="kad-borang kopi-borang">
-    <h3><i aria-hidden="true">☕</i>Belanja kopi <span class="pilihan">pilihan</span></h3>
-    <p class="sub" style="margin:0 0 16px">Sistem ini percuma. Jika rasa membantu, belanja secawan kopi untuk pembangun.</p>
-    <div class="akaun-baris">
-     <img src="qr-maybank.png" alt="Kod QR Maybank QRPay" class="qr-kecil" onerror="this.remove()">
-     <div><small>Maybank</small><b class="mono">151043879403</b></div>
-     <button class="butang" type="button" data-salin="151043879403">Salin no. akaun</button>
-    </div>
-    <div class="grid2">
-     <label>Jumlah (RM) <span class="pilihan">pilihan</span><input name="jumlah" inputmode="decimal" maxlength="8" placeholder="Contoh: 10"></label>
-     <label>Resit pindahan <span class="pilihan">pilihan</span>
-      <span class="fail"><input type="file" name="resit" accept="image/*,application/pdf"><span class="fail-teks">↑ Pilih gambar atau PDF</span></span>
-      <small>Maksimum 5MB</small></label>
-    </div>
-   </div>
-   <div class="kad-borang">
+   <div class="kad-borang muncul">
     <label class="setuju"><input type="checkbox" name="setuju" required> Saya mengesahkan maklumat ini benar dan saya mendaftar bagi pihak sekolah ini.</label>
     <p class="ralat-borang" id="ralat-daftar" role="alert"></p>
     <button class="butang utama besar" type="submit" id="hantar-daftar">Daftar sekarang</button>
    </div>
+  </div>
   </form>
   <div class="kad-borang berjaya" id="berjaya-daftar" hidden tabindex="-1">
    <h3><i>✓</i>Pendaftaran diterima</h3>
@@ -418,13 +518,13 @@ footer .bekas{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px
   <span class="label">Soalan lazim</span>
   <h2>Soalan yang biasa ditanya.</h2>
   <div class="faq">
-   <details><summary>Di mana data guru disimpan?</summary><p>Dalam Google Sheet milik sekolah anda sendiri, dalam akaun Google sekolah. Pembangun tidak menyimpan atau melihat data sekolah anda.</p></details>
-   <details><summary>Siapa boleh membuka aplikasi?</summary><p>Hanya guru yang didaftarkan oleh admin, menggunakan akaun domain sekolah. PYD hanya melihat borang sendiri; PP1 dan PP2 melihat PYD di bawah mereka.</p></details>
-   <details><summary>Perlu pasang aplikasi?</summary><p>Tidak. Buka pautan di pelayar telefon atau komputer.</p></details>
-   <details><summary>Adakah ia mengikut panduan rasmi?</summary><p>Pengiraan mengikut GPPKK Bab 7 (Jadual 7.3), contoh sasaran daripada Bab 8, dan instrumen kompetensi daripada Garis Panduan Instrumen PBPPP. Skor akhir disalin ke e-Prestasi oleh PP1.</p></details>
-   <details><summary>Bagaimana jika guru bertukar sekolah atau jawatan?</summary><p>Admin mengemas kini senarai guru, PP1 dan PP2 dalam menu Admin, atau import semula dari Excel.</p></details>
-   <details><summary>Betul percuma?</summary><p>Ya. Sumbangan "belanja kopi" adalah pilihan dan tidak menjejaskan akses.</p></details>
-   <details><summary>Bagaimana mendaftarkan sekolah saya?</summary><p>Isi borang <a href="#daftar">Daftar sekolah</a>. Kod sekolah terus didaftarkan, dan emel berserta pautan salinan serta langkah pemasangan dihantar kepada anda. Pertanyaan lain: <a href="mailto:cikgujep@gmail.com">cikgujep@gmail.com</a>.</p></details>
+   <details class="muncul"><summary>Di mana data guru disimpan?</summary><p>Dalam Google Sheet milik sekolah anda sendiri, dalam akaun Google sekolah. Pembangun tidak menyimpan atau melihat data sekolah anda.</p></details>
+   <details class="muncul"><summary>Siapa boleh membuka aplikasi?</summary><p>Hanya guru yang didaftarkan oleh admin, menggunakan akaun domain sekolah. PYD hanya melihat borang sendiri; PP1 dan PP2 melihat PYD di bawah mereka.</p></details>
+   <details class="muncul"><summary>Perlu pasang aplikasi?</summary><p>Tidak. Buka pautan di pelayar telefon atau komputer.</p></details>
+   <details class="muncul"><summary>Adakah ia mengikut panduan rasmi?</summary><p>Pengiraan mengikut GPPKK Bab 7 (Jadual 7.3), contoh sasaran daripada Bab 8, dan instrumen kompetensi daripada Garis Panduan Instrumen PBPPP. Skor akhir disalin ke e-Prestasi oleh PP1.</p></details>
+   <details class="muncul"><summary>Bagaimana jika guru bertukar sekolah atau jawatan?</summary><p>Admin mengemas kini senarai guru, PP1 dan PP2 dalam menu Admin, atau import semula dari Excel.</p></details>
+   <details class="muncul"><summary>Berapa kos?</summary><p>Yuran sekali bayar <b class="harga-kini">RM25</b> untuk satu sekolah<span class="hanya-awal"> (harga awal hingga 28 Februari 2027; RM40 mulai 1 Mac 2027)</span>. Tiada yuran tahunan, dan kemas kini sistem diteruskan. Satu kod sekolah boleh digunakan oleh semua guru sekolah itu.</p></details>
+   <details class="muncul"><summary>Bagaimana mendaftarkan sekolah saya?</summary><p>Isi borang <a href="#daftar">Daftar sekolah</a>. Kod sekolah terus didaftarkan, dan emel berserta pautan salinan serta langkah pemasangan dihantar kepada anda. Pertanyaan lain: <a href="mailto:cikgujep@gmail.com">cikgujep@gmail.com</a>.</p></details>
   </div>
  </div>
 </section>
@@ -459,15 +559,66 @@ footer .bekas{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px
     document.getElementById('v-guru').textContent = g.value;
     document.getElementById('v-minit').textContent = m.value;
     var jam = Math.round(Number(g.value) * Number(m.value) * 4 / 60);
-    document.getElementById('v-jam').textContent = jam.toLocaleString('ms-MY') + ' jam';
+    var vj = document.getElementById('v-jam'); vj.textContent = jam.toLocaleString('ms-MY') + ' jam'; vj.classList.add('lompat'); clearTimeout(vj._t); vj._t = setTimeout(function () { vj.classList.remove('lompat'); }, 180);
   }
   g.oninput = kira; m.oninput = kira; kira();
+  // Yuran: RM25 hingga 28 Februari 2027, RM40 mulai 1 Mac 2027 (00:00 waktu Malaysia). Pelayan menyemak semula.
+  var TAMAT_AWAL = Date.parse('2027-02-28T16:00:00Z'), HARGA = Date.now() < TAMAT_AWAL ? 25 : 40;
+  [].forEach.call(document.querySelectorAll('.harga-kini'), function (e) { e.textContent = 'RM' + HARGA; });
+  [].forEach.call(document.querySelectorAll('.hanya-awal'), function (e) { e.hidden = HARGA !== 25; });
+  var bh = document.getElementById('baki-hari');
+  if (bh) { var hari = Math.ceil((TAMAT_AWAL - Date.now()) / 86400000); bh.textContent = hari > 1 ? 'tinggal ' + hari + ' hari' : 'hari terakhir'; }
+  // Animasi: muncul semasa skrol, bar bacaan, kiraan angka fakta
+  var kurang = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var muncul = [].slice.call(document.querySelectorAll('.muncul'));
+  if (kurang || !('IntersectionObserver' in window)) muncul.forEach(function (e) { e.classList.add('nampak'); });
+  else {
+    var io = new IntersectionObserver(function (s) {
+      s.forEach(function (x) {
+        if (!x.isIntersecting) return;
+        var e = x.target, kedudukan = e.parentNode ? [].indexOf.call(e.parentNode.children, e) : 0;
+        e.style.transitionDelay = Math.min(Math.max(kedudukan, 0), 6) * 70 + 'ms';
+        e.classList.add('nampak'); io.unobserve(e);
+        setTimeout(function () { e.style.transitionDelay = ''; }, 1200);
+        if (e.classList.contains('fakta')) kiraFakta(e);
+      });
+    }, { rootMargin: '0px 0px -10% 0px' });
+    muncul.forEach(function (e) { io.observe(e); });
+  }
+  function kiraFakta(f) {
+    [].forEach.call(f.querySelectorAll('b'), function (b) {
+      var m = b.textContent.match(/^(RM)?(\d+)(\+?)$/); if (!m) return;
+      var akhir = Number(m[2]), mula = performance.now(), tempoh = 1200;
+      (function langkah(t) { var p = Math.min(1, (t - mula) / tempoh), e = 1 - Math.pow(1 - p, 3); b.textContent = (m[1] || '') + Math.round(akhir * e) + (p === 1 ? m[3] : ''); if (p < 1) requestAnimationFrame(langkah); })(mula);
+    });
+  }
+  var bar = document.getElementById('bar-baca');
+  if (bar && !kurang) addEventListener('scroll', function () { var h = document.documentElement; bar.style.transform = 'scaleX(' + (h.scrollTop / Math.max(1, h.scrollHeight - h.clientHeight)) + ')'; }, { passive: true });
   // Borang daftar: dihantar sebagai JSON (text/plain, tanpa preflight) ke web app master
   var URL_DAFTAR = 'https://script.google.com/macros/s/AKfycbyWWGP9T7_lAWCRE5S2_80E60N5PB6us9jEVgOYtVwvQ8KT93MAHEd48OvefdPRjPT1JA/exec';
   var f = document.getElementById('borang-daftar');
   if (f) {
     var tf = f.querySelector('.fail-teks'), inFail = f.elements.resit;
     inFail.onchange = function () { var x = inFail.files[0]; tf.textContent = x ? x.name + ' (' + Math.round(x.size / 1024) + ' KB)' : '↑ Pilih gambar atau PDF'; };
+    var l1 = document.getElementById('langkah-1'), l2 = document.getElementById('langkah-2');
+    function keLangkah(n) {
+      l1.hidden = n !== 1; l2.hidden = n !== 2;
+      var rk = document.getElementById('kopi-ringkas'), rm = f.elements.jumlah.value, ada = inFail.files[0];
+      rk.hidden = !(rm && ada); rk.textContent = '✓ Bayaran RM' + rm + ', resit dilampirkan';
+      var sasaran = n === 1 ? l1 : l2;
+      [].forEach.call(sasaran.querySelectorAll('.muncul'), function (e) { e.classList.add('nampak'); });
+      document.getElementById('daftar').scrollIntoView({ behavior: kurang ? 'auto' : 'smooth', block: 'start' });
+      setTimeout(function () { var x = n === 1 ? document.getElementById('ke-langkah-2') : f.elements.kod; if (x) x.focus({ preventScroll: true }); }, 350);
+    }
+    f.elements.jumlah.value = HARGA; f.elements.jumlah.placeholder = String(HARGA);
+    function semakBayaran() {
+      var r = document.getElementById('ralat-langkah1'), j = Number(f.elements.jumlah.value);
+      if (!(j >= HARGA)) { r.textContent = 'Jumlah dibayar mesti sekurang-kurangnya RM' + HARGA + '.'; r.classList.add('ralat'); f.elements.jumlah.focus(); return false; }
+      if (!inFail.files[0]) { r.textContent = 'Sila muat naik resit pembayaran untuk meneruskan.'; r.classList.add('ralat'); return false; }
+      r.textContent = 'Resit diterima. Teruskan ke maklumat sekolah.'; r.classList.remove('ralat'); return true;
+    }
+    document.getElementById('ke-langkah-2').onclick = function () { if (semakBayaran()) keLangkah(2); };
+    document.getElementById('ke-langkah-1').onclick = function () { keLangkah(1); };
     f.elements.kod.oninput = function () { this.value = this.value.toUpperCase().replace(/[^A-Z0-9]/g, ''); };
     function bacaFail(x) {
       return new Promise(function (lulus, gagal) {
@@ -491,6 +642,7 @@ footer .bekas{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px
         var el = f.elements[semak[i][0]];
         if (!semak[i][1].test(el.value.trim())) { el.setAttribute('aria-invalid', 'true'); ralat.textContent = semak[i][2]; el.focus(); return; }
       }
+      if (!semakBayaran()) { keLangkah(1); return; }
       if (!f.elements.setuju.checked) { ralat.textContent = 'Sila tandakan pengesahan.'; f.elements.setuju.focus(); return; }
       b.disabled = true; b.textContent = 'Menghantar…';
       bacaFail(inFail.files[0]).then(function (resit) {
@@ -517,14 +669,8 @@ footer .bekas{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px
       else toast('Nombor akaun: ' + no);
     };
   });
-  // Salin nombor akaun
   var t = document.getElementById('toast'), masa;
-  function toast(s) { t.textContent = s; t.classList.add('ada'); clearTimeout(masa); masa = setTimeout(function () { t.classList.remove('ada'); }, 2200); }
-  document.getElementById('salin').onclick = function () {
-    var no = document.getElementById('no-akaun').textContent;
-    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(no).then(function () { toast('Disalin: ' + no + '. Terima kasih!'); }, function () { toast('Nombor akaun: ' + no); });
-    else toast('Nombor akaun: ' + no);
-  };
+  function toast(x) { t.textContent = x; t.classList.add('ada'); clearTimeout(masa); masa = setTimeout(function () { t.classList.remove('ada'); }, 2200); }
 })();
 </script>
 </body>

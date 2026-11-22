@@ -2741,7 +2741,8 @@ function emelPemohon_(o, nama, aktif) {
     '5. Salin URL web app (berakhir dengan /exec), buka dalam pelayar, dan masukkan kod sekolah ' + o.kod + '.',
     '6. Sistem membina tab data dan contoh sasaran secara automatik. Anda menjadi admin.',
     '7. Dalam menu Admin, daftarkan guru serta PP1 dan PP2 (boleh import dari Excel), kemudian kongsi URL web app kepada guru.', '',
-    'Cuba demo dan baca maklumat lanjut: ' + URL_LANDING_, '',
+    'PANDUAN BERGAMBAR (guru, PP1 dan PP2, admin): ' + URL_LANDING_ + 'panduan.html',
+    'Cuba demo: ' + URL_LANDING_ + 'demo.html', '',
     'Sebarang pertanyaan, balas e-mel ini.', '',
     'Terima kasih' + (o.jumlah ? ' juga atas belanja kopi RM' + o.jumlah + '!' : '.'), '', 'Pembangun myPBPPP'].join('\n');
 }
@@ -2898,7 +2899,7 @@ function rancangPeringatan_(d) {
   if (!d.paksa && (d.bakiHari === null || d.hari.indexOf(d.bakiHari) < 0)) return [];
   var bila = d.bakiHari === null ? '' : d.bakiHari === 0 ? 'hari ini' : d.bakiHari > 0 ? 'dalam ' + d.bakiHari + ' hari (' + d.tarikhTutup + ')' : '';
   var tutup = bila ? 'Fasa ' + d.namaFasa + ' ditutup ' + bila + '.' : 'Fasa semasa: ' + d.namaFasa + '.';
-  var kaki = '\n\nBuka myPBPPP: ' + d.url + '\n\nE-mel ini dihantar secara automatik oleh myPBPPP ' + d.sekolah + '. Sebarang pertanyaan, sila hubungi PP1 atau admin sekolah.';
+  var kaki = '\n\nBuka myPBPPP: ' + d.url + '\nPanduan bergambar: https://cikgujep.github.io/mypbppp/panduan.html\n\nE-mel ini dihantar secara automatik oleh myPBPPP ' + d.sekolah + '. Sebarang pertanyaan, sila hubungi PP1 atau admin sekolah.';
   var emel = [];
   var nama = {};
   d.senarai.forEach(function (x) { nama[x.email] = x.nama; });
@@ -6029,10 +6030,10 @@ var LABEL_KAEDAH = { 'Temu Bual': 'Temu bual', Pemerhatian: 'Pemerhatian', Pence
     ];
     if (lampiran) {
       isi.push(el('div', { class: 'kk-lampiran' }, [el('div', { class: 'kk-tajuk' }, 'LAMPIRAN: EVIDENS PENILAIAN KOMPETENSI'), el('div', { class: 'kk-tajuk', style: 'font-weight:normal' }, p.nama + ', ' + D.tahun),
-        el('table', {}, [el('colgroup', {}, [16, 50, 9, 9, null].map(function (w) { return el('col', { style: w ? 'width:' + w + 'mm' : null }); })), el('thead', {}, el('tr', {}, ['KOD', 'ASPEK', 'PYD', 'PP', 'EVIDENS'].map(function (h) { return el('th', {}, h); }))),
+        el('table', {}, [el('colgroup', {}, [16, 56, 13, null].map(function (w) { return el('col', { style: w ? 'width:' + w + 'mm' : null }); })), el('thead', {}, el('tr', {}, ['KOD', 'ASPEK', 'SKOR', 'EVIDENS'].map(function (h) { return el('th', {}, h); }))),
           el('tbody', {}, I.aspek.map(function (a) {
             var v = nilai[a.id] || {};
-            return el('tr', {}, [el('td', { class: 'kod' }, a.d + ' ' + (a.kodBorang || a.kod)), el('td', {}, a.nama), el('td', { class: 'c' }, v.aras_pyd || ''), el('td', { class: 'c' }, v.aras_pp || ''),
+            return el('tr', {}, [el('td', { class: 'kod' }, a.d + ' ' + (a.kodBorang || a.kod)), el('td', {}, a.nama), el('td', { class: 'c' }, arasMuktamad_(v) || ''),
               el('td', { class: 'k-teks' }, [v.evidens || '', v.pautan ? el('div', {}, v.pautan) : null])]);
           }))])]));
     }
