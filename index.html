@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+<meta charset="utf-8">
+<title>myPBPPP: Keberhasilan dan Kompetensi PBPPP dalam satu sistem</title>
+<meta property="og:title" content="myPBPPP: Keberhasilan dan Kompetensi PBPPP dalam satu sistem">
+<meta name="description" content="Sistem percuma untuk sekolah: borang Keberhasilan dan penilaian Kompetensi PBPPP, PP1 dan PP2 menilai dalam talian, markah dan Borang Skor dikira automatik.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@600;700&family=Red+Hat+Text:wght@400;500&family=Red+Hat+Mono:wght@500&display=swap">
+<style>
+:root{color-scheme:light;--kertas:#f6f2ea;--kertas2:#efe8dc;--kad:#fffdf9;--dakwat:#1c1a17;--dakwat2:#4a453e;--redup:#776f63;--garis:#e0d7c8;
+  --aksen:#e8642c;--aksen-lembut:#fbe3d6;--aksen-dakwat:#fff;--air:#2f6f8f;--air-lembut:#dcecf3;--hijau:#2e7d4f;--hijau-lembut:#dcefe2;--merah:#b3412e;
+  --jejari:18px;--bayang:0 1px 2px rgba(28,26,23,.06),0 12px 32px rgba(28,26,23,.08);--lebar:1120px;
+  --muka:"Red Hat Display",system-ui,sans-serif;--teks:"Red Hat Text",system-ui,sans-serif;--mono:"Red Hat Mono",ui-monospace,monospace}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark;--kertas:#14120e;--kertas2:#1b1813;--kad:#211d17;--dakwat:#f3eee5;--dakwat2:#cfc7b9;--redup:#a39a8b;--garis:#36302703;
+  --garis:#3a3429;--aksen-lembut:#3a2418;--air-lembut:#18303b;--hijau-lembut:#173225;--bayang:0 1px 2px rgba(0,0,0,.3),0 12px 32px rgba(0,0,0,.35)}}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--kertas);color:var(--dakwat);font:17px/1.6 var(--teks);-webkit-font-smoothing:antialiased}
+a{color:inherit}
+img{max-width:100%}
+.bekas{max-width:var(--lebar);margin:0 auto;padding:0 20px}
+h1,h2,h3{font-family:var(--muka);line-height:1.15;margin:0;letter-spacing:-.015em}
+h2{font-size:clamp(1.7rem,3.2vw,2.4rem)}
+.sub{color:var(--dakwat2)}
+.label{display:inline-block;margin-bottom:12px;font:500 .78rem/1 var(--teks);letter-spacing:.08em;text-transform:uppercase;color:var(--aksen)}
+section{padding:88px 0}
+.butang{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:0 22px;border-radius:999px;border:1px solid var(--garis);background:var(--kad);color:var(--dakwat);font:500 1rem var(--teks);text-decoration:none;cursor:pointer;transition:transform .15s ease,background-color .15s ease}
+.butang:hover{transform:translateY(-1px)}
+.butang:focus-visible,a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(--aksen);outline-offset:3px}
+.butang.utama{background:var(--aksen);border-color:var(--aksen);color:var(--aksen-dakwat)}
+/* Navigasi */
+.nav{position:sticky;top:0;z-index:10;background:color-mix(in oklab,var(--kertas) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--garis)}
+.nav .bekas{display:flex;align-items:center;gap:24px;min-height:64px}
+.jenama{display:flex;align-items:center;gap:10px;font:700 1.15rem var(--muka);text-decoration:none}
+.jenama i{display:grid;place-items:center;width:34px;height:34px;border-radius:10px;background:var(--dakwat);color:var(--kertas);font:700 .8rem var(--muka);font-style:normal}
+.nav ul{display:flex;gap:4px;margin:0 0 0 auto;padding:0;list-style:none}
+.nav ul a{display:block;padding:8px 12px;border-radius:999px;text-decoration:none;color:var(--dakwat2);font-size:.95rem}
+.nav ul a:hover{background:var(--kertas2);color:var(--dakwat)}
+.nav .butang{min-height:40px;padding:0 16px;font-size:.92rem}
+@media (max-width:860px){.nav ul{display:none}.nav .butang{margin-left:auto}}
+/* Hero */
+.hero{padding:72px 0 64px}
+.hero .bekas{display:grid;grid-template-columns:1.05fr 1fr;gap:48px;align-items:center}
+.lencana{display:inline-flex;align-items:center;gap:8px;padding:6px 14px;border-radius:999px;background:var(--hijau-lembut);color:var(--hijau);font-weight:500;font-size:.85rem}
+.lencana::before{content:"";width:8px;height:8px;border-radius:50%;background:currentColor}
+.hero h1{margin:18px 0;font-size:clamp(2.2rem,5vw,3.6rem);font-weight:700}
+.hero h1 em{font-style:normal;color:var(--aksen)}
+.hero p.sub{font-size:1.15rem;max-width:34rem;margin:0 0 28px}
+.cta{display:flex;flex-wrap:wrap;gap:12px}
+.mock{position:relative;padding:18px;border-radius:24px;background:var(--kad);box-shadow:var(--bayang);border:1px solid var(--garis)}
+.mock .bar{display:flex;gap:6px;margin-bottom:14px}.mock .bar i{width:10px;height:10px;border-radius:50%;background:var(--garis)}
+.mock .fasa{display:flex;gap:6px;margin-bottom:14px;font-size:.72rem;color:var(--redup)}
+.mock .fasa span{flex:1;padding:6px 8px;border-radius:8px;background:var(--kertas2);text-align:center}
+.mock .fasa span.ini{background:var(--aksen);color:#fff}
+.mock .baris{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;padding:12px;border-radius:12px;background:var(--kertas);margin-bottom:8px;font-size:.85rem}
+.mock .baris b{font-weight:500;display:block}
+.mock .baris small{color:var(--redup)}
+.mock .pil{padding:4px 10px;border-radius:999px;font:500 .75rem var(--mono)}
+.pil.h{background:var(--hijau-lembut);color:var(--hijau)}.pil.a{background:var(--air-lembut);color:var(--air)}.pil.o{background:var(--aksen-lembut);color:var(--aksen)}
+.mock .skor{display:flex;justify-content:space-between;align-items:flex-end;margin-top:12px;padding:14px;border-radius:12px;background:var(--dakwat);color:var(--kertas)}
+.mock .skor b{font:700 2rem/1 var(--muka)}
+@media (max-width:860px){.hero .bekas{grid-template-columns:1fr}.hero{padding-top:40px}}
+/* Fakta */
+.fakta{padding:0 0 24px}
+.fakta .bekas{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border-top:1px solid var(--garis);border-bottom:1px solid var(--garis)}
+.fakta div{padding:26px 20px;border-left:1px solid var(--garis)}
+.fakta div:first-child{border-left:0}
+.fakta b{display:block;font:700 2rem/1.1 var(--muka)}
+.fakta span{color:var(--dakwat2);font-size:.92rem}
+@media (max-width:760px){.fakta .bekas{grid-template-columns:1fr 1fr}.fakta div:nth-child(3){border-left:0}.fakta div:nth-child(n+3){border-top:1px solid var(--garis)}}
+/* Banding */
+.banding{margin-top:32px;border-radius:var(--jejari);overflow:hidden;border:1px solid var(--garis);background:var(--kad)}
+.banding table{width:100%;border-collapse:collapse}
+.banding th,.banding td{padding:16px 20px;text-align:left;vertical-align:top;border-top:1px solid var(--garis)}
+.banding thead th{border-top:0;font:600 .9rem var(--muka);background:var(--kertas2)}
+.banding td:first-child{font-weight:500;width:22%}
+.banding td:nth-child(2){color:var(--redup)}
+.banding td:nth-child(3){color:var(--dakwat)}
+.banding td:nth-child(2)::before{content:"✕ ";color:var(--merah)}
+.banding td:nth-child(3)::before{content:"✓ ";color:var(--hijau);font-weight:600}
+@media (max-width:700px){.banding thead{display:none}.banding tr{display:block;border-top:1px solid var(--garis)}.banding td{display:block;border:0;padding:8px 18px;width:auto!important}.banding td:first-child{padding-top:16px}.banding td:last-child{padding-bottom:16px}}
+/* Modul */
+.tab-senarai{display:flex;flex-wrap:wrap;gap:8px;margin:32px 0 20px}
+.tab-senarai button{min-height:42px;padding:0 18px;border-radius:999px;border:1px solid var(--garis);background:var(--kad);color:var(--dakwat2);font:500 .95rem var(--teks);cursor:pointer}
+.tab-senarai button[aria-selected="true"]{background:var(--dakwat);border-color:var(--dakwat);color:var(--kertas)}
+.panel-modul{display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:center;padding:32px;border-radius:24px;background:var(--kad);border:1px solid var(--garis)}
+.panel-modul h3{font-size:1.6rem;margin-bottom:10px}
+.panel-modul ul{margin:18px 0 0;padding:0;list-style:none}
+.panel-modul li{position:relative;padding:6px 0 6px 30px}
+.panel-modul li::before{content:"✓";position:absolute;left:0;top:6px;display:grid;place-items:center;width:20px;height:20px;border-radius:50%;background:var(--hijau-lembut);color:var(--hijau);font-size:.75rem;font-weight:700}
+.ilustrasi{padding:20px;border-radius:18px;background:var(--kertas);font-size:.85rem}
+.ilustrasi .rumus{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.ilustrasi .rumus span{padding:8px 10px;border-radius:10px;font-weight:500}
+.ilustrasi .aras{display:flex;gap:6px;margin:8px 0}
+.ilustrasi .aras span{flex:1;padding:8px 0;border-radius:999px;border:1px solid var(--garis);text-align:center;font-family:var(--mono)}
+.ilustrasi .aras span.p{background:var(--dakwat);color:var(--kertas)}
+.ilustrasi .t{display:flex;justify-content:space-between;padding:8px 0;border-top:1px solid var(--garis)}
+@media (max-width:760px){.panel-modul{grid-template-columns:1fr;padding:22px}}
+/* Kalkulator */
+.kalk{display:grid;grid-template-columns:1fr 1fr;gap:32px;margin-top:32px;padding:32px;border-radius:24px;background:var(--dakwat);color:var(--kertas)}
+.kalk label{display:block;margin:0 0 18px;font-weight:500}
+.kalk label span{float:right;font-family:var(--mono)}
+.kalk input[type=range]{width:100%;margin-top:10px;accent-color:var(--aksen)}
+.kalk .hasil{display:flex;flex-direction:column;justify-content:center;padding:24px;border-radius:18px;background:color-mix(in oklab,var(--kertas) 8%,transparent)}
+.kalk .hasil b{font:700 clamp(2.6rem,6vw,4rem)/1 var(--muka);color:var(--aksen)}
+.kalk .hasil p{margin:10px 0 0;opacity:.8;font-size:.92rem}
+@media (max-width:760px){.kalk{grid-template-columns:1fr;padding:22px}}
+/* Langkah */
+.langkah{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:32px;counter-reset:l}
+.langkah div{position:relative;padding:28px 24px;border-radius:var(--jejari);background:var(--kad);border:1px solid var(--garis)}
+.langkah div::before{counter-increment:l;content:counter(l);display:grid;place-items:center;width:40px;height:40px;margin-bottom:16px;border-radius:50%;background:var(--aksen);color:#fff;font:700 1.1rem var(--muka)}
+.langkah h3{font-size:1.2rem;margin-bottom:8px}
+.langkah p{margin:0;color:var(--dakwat2);font-size:.95rem}
+@media (max-width:760px){.langkah{grid-template-columns:1fr}}
+/* Pakej dan kopi */
+.pakej{display:grid;grid-template-columns:1fr 1.15fr;gap:20px;margin-top:32px}
+.pakej>div{padding:32px;border-radius:24px;border:1px solid var(--garis);background:var(--kad)}
+.harga{font:700 3rem/1 var(--muka);margin:14px 0 4px}
+.pakej ul{margin:20px 0 0;padding:0;list-style:none}
+.pakej li{padding:6px 0 6px 28px;position:relative}
+.pakej li::before{content:"✓";position:absolute;left:0;color:var(--hijau);font-weight:700}
+.kopi{background:linear-gradient(160deg,var(--aksen-lembut),var(--kad) 60%)!important}
+.kopi-isi{display:grid;grid-template-columns:auto 1fr;gap:24px;align-items:center;margin-top:20px}
+.qr{width:180px;padding:10px;border-radius:16px;background:#fff;border:1px solid var(--garis)}
+.qr img{display:block;width:100%}
+.qr-kosong{display:grid;place-items:center;width:180px;height:180px;border-radius:16px;border:2px dashed var(--garis);color:var(--redup);text-align:center;font-size:.85rem;padding:12px}
+.akaun{display:flex;flex-direction:column;gap:6px}
+.akaun small{color:var(--redup)}
+.akaun b{font:500 1.4rem var(--mono);letter-spacing:.04em}
+.akaun button{align-self:flex-start;margin-top:8px}
+@media (max-width:860px){.pakej{grid-template-columns:1fr}.kopi-isi{grid-template-columns:1fr}.qr,.qr-kosong{width:200px}}
+/* FAQ */
+.faq{margin-top:32px;border-top:1px solid var(--garis)}
+.faq details{border-bottom:1px solid var(--garis)}
+.faq summary{display:flex;justify-content:space-between;gap:16px;padding:20px 4px;cursor:pointer;font:600 1.08rem var(--muka);list-style:none}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";font-size:1.4rem;line-height:1;color:var(--aksen)}
+.faq details[open] summary::after{content:"−"}
+.faq details p{margin:0 4px 20px;color:var(--dakwat2)}
+/* Penutup */
+.penutup{text-align:center;padding:96px 0;background:var(--kertas2)}
+.penutup h2{max-width:38rem;margin:0 auto 14px}
+.penutup p{max-width:34rem;margin:0 auto 28px}
+.penutup .cta{justify-content:center}
+footer{padding:28px 0;color:var(--redup);font-size:.88rem}
+footer .bekas{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px}
+.toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);opacity:0;padding:12px 20px;border-radius:999px;background:var(--dakwat);color:var(--kertas);font-weight:500;transition:.25s;pointer-events:none;z-index:20}
+.toast.ada{opacity:1;transform:translate(-50%,0)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<nav class="nav" aria-label="Navigasi utama">
+ <div class="bekas">
+  <a class="jenama" href="#atas"><i aria-hidden="true">my</i>myPBPPP</a>
+  <ul>
+   <li><a href="#kelebihan">Kelebihan</a></li>
+   <li><a href="#modul">Modul</a></li>
+   <li><a href="#kalkulator">Kalkulator</a></li>
+   <li><a href="#mula">Cara mula</a></li>
+   <li><a href="#kopi">Belanja kopi</a></li>
+   <li><a href="#soalan">Soalan lazim</a></li>
+  </ul>
+  <a class="butang utama" href="https://script.google.com/macros/s/AKfycbyWWGP9T7_lAWCRE5S2_80E60N5PB6us9jEVgOYtVwvQ8KT93MAHEd48OvefdPRjPT1JA/exec?p=demo">Cuba demo</a>
+ </div>
+</nav>
+
+<main id="atas">
+<section class="hero">
+ <div class="bekas">
+  <div>
+   <span class="lencana">Percuma untuk semua sekolah</span>
+   <h1>Keberhasilan dan Kompetensi PBPPP, <em>siap dalam satu sistem.</em></h1>
+   <p class="sub">Guru menulis sasaran dengan bimbingan contoh GPPKK, PP1 dan PP2 menilai dalam talian, dan markah serta Borang Skor dikira secara automatik. Terus dari telefon atau komputer.</p>
+   <div class="cta">
+    <a class="butang utama" href="https://script.google.com/macros/s/AKfycbyWWGP9T7_lAWCRE5S2_80E60N5PB6us9jEVgOYtVwvQ8KT93MAHEd48OvefdPRjPT1JA/exec?p=demo">Cuba demo sekarang</a>
+    <a class="butang" href="#modul">Lihat apa yang boleh dibuat ↓</a>
+   </div>
+  </div>
+  <div class="mock" aria-label="Contoh paparan myPBPPP">
+   <div class="bar" aria-hidden="true"><i></i><i></i><i></i></div>
+   <div class="fasa"><span>Penetapan</span><span>Penilaian 1</span><span>Semakan</span><span class="ini">Penilaian akhir</span></div>
+   <div class="baris"><div><b>Memastikan 20 daripada 30 murid 5 Delima mendapat A</b><small>Pencapaian 22 · Kekal</small></div><span class="pil h">100%</span></div>
+   <div class="baris"><div><b>Menghasilkan 3 set modul latihan Fungsi Kuadratik</b><small>Pencapaian 3 · Pinda</small></div><span class="pil h">100%</span></div>
+   <div class="baris"><div><b>Kompetensi PdP: 28 aspek dinilai</b><small>Disahkan PP1</small></div><span class="pil a">D3 55.6%</span></div>
+   <div class="skor"><div><small>Jumlah PBPPP</small><br><b>92%</b></div><span class="pil o">Skor keberhasilan 5</span></div>
+  </div>
+ </div>
+</section>
+
+<div class="fakta">
+ <div class="bekas">
+  <div><b>700+</b><span>contoh sasaran GPPKK Bab 8 dan contoh sekolah, ikut jawatan dan bidang</span></div>
+  <div><b>3</b><span>instrumen kompetensi lengkap dengan rubrik: PdP, PT(A) dan GBK</span></div>
+  <div><b>4</b><span>fasa penilaian dalam satu aliran, dengan pengesahan PYD, PP1 dan PP2</span></div>
+  <div><b>RM0</b><span>percuma. Data kekal dalam Google Sheet sekolah anda sendiri</span></div>
+ </div>
+</div>
+
+<section id="kelebihan">
+ <div class="bekas">
+  <span class="label">Sebelum dan selepas</span>
+  <h2>Tiada lagi fail Excel berasingan untuk setiap guru.</h2>
+  <div class="banding">
+   <table>
+    <thead><tr><th>Perkara</th><th>Cara lama</th><th>Dengan myPBPPP</th></tr></thead>
+    <tbody>
+     <tr><td>Menulis sasaran</td><td>Guru meneka format; banyak sasaran perlu ditulis semula</td><td>Formula dan 700+ contoh mengikut jawatan; amaran jika ukuran atau tujuan tiada</td></tr>
+     <tr><td>Pengiraan markah</td><td>Dikira manual, mudah tersilap formula</td><td>Markah, purata dan skor dikira automatik mengikut Jadual 7.3</td></tr>
+     <tr><td>Semakan PP</td><td>Fail berpindah tangan melalui e-mel dan WhatsApp</td><td>PP1 dan PP2 semak, komen dan sahkan di satu tempat</td></tr>
+     <tr><td>Kompetensi</td><td>Rubrik dalam PDP berpuluh muka surat</td><td>Rubrik setiap aras di sebelah butang; evidens PYD dan PP dalam satu kotak</td></tr>
+     <tr><td>Cetakan</td><td>Salin satu per satu ke borang</td><td>Borang Keberhasilan dan Borang Skor sedia cetak dalam satu klik</td></tr>
+     <tr><td>Pemantauan</td><td>Admin bertanya guru seorang demi seorang</td><td>Dashboard sekolah dan peringatan e-mel automatik sebelum tarikh tutup</td></tr>
+    </tbody>
+   </table>
+  </div>
+ </div>
+</section>
+
+<section id="modul" style="padding-top:0">
+ <div class="bekas">
+  <span class="label">Modul</span>
+  <h2>Semua yang diperlukan untuk satu kitaran PBPPP.</h2>
+  <div class="tab-senarai" role="tablist" aria-label="Modul myPBPPP">
+   <button role="tab" aria-selected="true" aria-controls="m1" id="t1">Keberhasilan</button>
+   <button role="tab" aria-selected="false" aria-controls="m2" id="t2">Kompetensi</button>
+   <button role="tab" aria-selected="false" aria-controls="m3" id="t3">Papan PP</button>
+   <button role="tab" aria-selected="false" aria-controls="m4" id="t4">Cetakan</button>
+   <button role="tab" aria-selected="false" aria-controls="m5" id="t5">Admin</button>
+  </div>
+  <div class="panel-modul" role="tabpanel" id="m1" aria-labelledby="t1">
+   <div><h3>Tulis sasaran yang betul sejak awal</h3><p class="sub">Pembina sasaran memandu guru mengikut formula GPPKK, dengan contoh penulisan mengikut jawatan dan bidang tugas.</p>
+    <ul><li>Contoh Bab 8 dan contoh sekolah ditapis ikut bidang</li><li>Amaran segera jika ayat tiada ukuran atau tujuan</li><li>Pencapaian dan markah dikira semasa menaip</li></ul></div>
+   <div class="ilustrasi"><div class="rumus"><span style="background:var(--aksen-lembut)">Kata kerja</span>+<span style="background:var(--air-lembut)">Penyata ukuran</span>+<span style="background:var(--hijau-lembut)">Tujuan</span>+<span style="background:var(--kertas2)">Peringkat</span></div>
+    <p style="margin:14px 0 0">Memastikan <b>20 daripada 30 murid</b> 5 Delima mendapat gred A dalam peperiksaan akhir tahun.</p>
+    <div class="t" style="margin-top:12px"><span>Pencapaian 18 ÷ 20 × 100</span><b>90%</b></div></div>
+  </div>
+  <div class="panel-modul" role="tabpanel" id="m2" aria-labelledby="t2" hidden>
+   <div><h3>Penilaian kompetensi tanpa membuka PDF panduan</h3><p class="sub">Instrumen PdP, PT(A) dan GBK lengkap. Setiap aspek ada deskripsi, kaedah penilaian dan rubrik aras 1 hingga 5.</p>
+    <ul><li>PYD menilai kendiri dan mencatat evidens</li><li>PP menambah evidens temu bual dan pemerhatian dalam kotak yang sama</li><li>Markah elemen dan jumlah PBPPP dikira ikut formula sekolah</li></ul></div>
+   <div class="ilustrasi"><b>A2.1 Penyampaian</b><div class="aras"><span>5</span><span class="p">4</span><span>3</span><span>2</span><span>1</span></div>
+    <div class="t"><span>Evidens</span><span>RPH, rekod pencerapan</span></div><div class="t"><span>E2 Pelaksanaan PdP</span><b>27.6% / 30%</b></div></div>
+  </div>
+  <div class="panel-modul" role="tabpanel" id="m3" aria-labelledby="t3" hidden>
+   <div><h3>PP1 dan PP2 nampak semua PYD di satu skrin</h3><p class="sub">Senarai PYD dengan status setiap fasa, skor dan kompetensi. Buka, semak, komen dan sahkan.</p>
+    <ul><li>Markah muktamad PP1 dan catatan PP</li><li>Pulangkan rekod kepada PYD dengan nota</li><li>Salin skor terus ke e-Prestasi</li></ul></div>
+   <div class="ilustrasi"><div class="t"><span>Aminah binti Yusof</span><span class="pil h">Disahkan PP1</span></div><div class="t"><span>Lim Wei Ling</span><span class="pil a">Menunggu PP</span></div><div class="t"><span>Tan Mei Xin</span><span class="pil o">Draf PYD</span></div></div>
+  </div>
+  <div class="panel-modul" role="tabpanel" id="m4" aria-labelledby="t4" hidden>
+   <div><h3>Borang sedia cetak, satu klik</h3><p class="sub">Borang Keberhasilan mengikut Rajah 7.3 dan Borang Skor PBPPP dengan tanda aras dan skor A1.1.</p>
+    <ul><li>Jadual tandatangan dengan nama dan tarikh pengesahan</li><li>Lampiran evidens kompetensi</li><li>Simpan sebagai PDF terus dari pelayar</li></ul></div>
+   <div class="ilustrasi"><div class="t"><span>Borang Keberhasilan</span><span>A4 melintang</span></div><div class="t"><span>Borang Skor PBPPP</span><span>A4 menegak</span></div><div class="t"><span>Lampiran evidens</span><span>Pilihan</span></div></div>
+  </div>
+  <div class="panel-modul" role="tabpanel" id="m5" aria-labelledby="t5" hidden>
+   <div><h3>Admin mengawal kitaran tanpa mengejar guru</h3><p class="sub">Daftar guru dan PP dari Excel, buka setiap fasa, dan pantau kemajuan seluruh sekolah.</p>
+    <ul><li>Import guru dari Excel dengan semakan sebelum disimpan</li><li>Dashboard kemajuan dan taburan skor</li><li>Peringatan e-mel automatik sebelum tarikh tutup</li></ul></div>
+   <div class="ilustrasi"><div class="t"><span>Guru berdaftar</span><b>68</b></div><div class="t"><span>Sudah dihantar</span><b>54</b></div><div class="t"><span>Peringatan dihantar</span><b>14</b></div></div>
+  </div>
+ </div>
+</section>
+
+<section id="kalkulator" style="padding-top:0">
+ <div class="bekas">
+  <span class="label">Kalkulator</span>
+  <h2>Berapa banyak masa sekolah anda boleh jimat?</h2>
+  <div class="kalk">
+   <div>
+    <label for="k-guru">Bilangan guru <span id="v-guru">60</span></label>
+    <input type="range" id="k-guru" min="10" max="200" step="5" value="60">
+    <label for="k-minit" style="margin-top:22px">Minit dijimatkan setiap guru, setiap fasa <span id="v-minit">30</span></label>
+    <input type="range" id="k-minit" min="10" max="120" step="5" value="30">
+    <p style="margin:0;opacity:.75;font-size:.9rem">Termasuk masa guru menyediakan borang, PP menyemak dan admin mengumpul fail. Empat fasa setahun.</p>
+   </div>
+   <div class="hasil" aria-live="polite"><span>Anggaran masa dijimatkan setahun</span><b id="v-jam">120 jam</b><p>Masa ini boleh digunakan untuk mengajar dan membimbing murid.</p></div>
+  </div>
+ </div>
+</section>
+
+<section id="mula" style="padding-top:0">
+ <div class="bekas">
+  <span class="label">Cara mula</span>
+  <h2>Tiga langkah, kurang 15 minit.</h2>
+  <div class="langkah">
+   <div><h3>Salin templat</h3><p>Buka pautan templat myPBPPP dan pilih "Buat salinan". Sheet sekolah anda disimpan dalam Drive akaun sekolah anda sendiri.</p></div>
+   <div><h3>Terbitkan aplikasi</h3><p>Dalam Sheet, buka Extensions &gt; Apps Script &gt; Deploy &gt; New deployment &gt; Web app. Panduan bergambar disediakan.</p></div>
+   <div><h3>Masukkan kod sekolah</h3><p>Buka pautan aplikasi dan masukkan kod sekolah anda. Nama sekolah, contoh sasaran dan instrumen dimuatkan automatik. Daftarkan guru, dan mula.</p></div>
+  </div>
+ </div>
+</section>
+
+<section id="kopi" style="padding-top:0">
+ <div class="bekas">
+  <span class="label">Pakej</span>
+  <h2>Percuma. Jika membantu, belanja pembangun secawan kopi.</h2>
+  <div class="pakej">
+   <div>
+    <h3>myPBPPP untuk sekolah</h3>
+    <div class="harga">RM0</div><span class="sub">Semua modul, setiap tahun</span>
+    <ul><li>Keberhasilan: penetapan hingga penilaian akhir</li><li>Kompetensi PdP, PT(A) dan GBK</li><li>Papan PP, Dashboard dan peringatan e-mel</li><li>Cetakan Borang Keberhasilan dan Borang Skor</li><li>Kemas kini sistem diteruskan</li></ul>
+   </div>
+   <div class="kopi">
+    <h3>Belanja kopi ☕</h3>
+    <p class="sub" style="margin:10px 0 0">Sumbangan anda membantu pembangun terus menyelenggara myPBPPP dan membina sistem lain untuk sekolah. Tiada jumlah minimum.</p>
+    <div class="kopi-isi">
+     <div class="qr"><img src="qr-maybank.png" alt="Kod QR Maybank QRPay untuk sumbangan" onerror="this.parentNode.className='qr-kosong';this.parentNode.textContent='Kod QR Maybank QRPay'"></div>
+     <div class="akaun">
+      <small>Maybank</small>
+      <b id="no-akaun">151043879403</b>
+      <small>Imbas QR atau pindahan ke akaun ini</small>
+      <button class="butang" type="button" id="salin">Salin nombor akaun</button>
+     </div>
+    </div>
+   </div>
+  </div>
+ </div>
+</section>
+
+<section id="soalan" style="padding-top:0">
+ <div class="bekas">
+  <span class="label">Soalan lazim</span>
+  <h2>Soalan yang biasa ditanya.</h2>
+  <div class="faq">
+   <details><summary>Di mana data guru disimpan?</summary><p>Dalam Google Sheet milik sekolah anda sendiri, dalam akaun Google sekolah. Pembangun tidak menyimpan atau melihat data sekolah anda.</p></details>
+   <details><summary>Siapa boleh membuka aplikasi?</summary><p>Hanya guru yang didaftarkan oleh admin, menggunakan akaun domain sekolah. PYD hanya melihat borang sendiri; PP1 dan PP2 melihat PYD di bawah mereka.</p></details>
+   <details><summary>Perlu pasang aplikasi?</summary><p>Tidak. Buka pautan di pelayar telefon atau komputer.</p></details>
+   <details><summary>Adakah ia mengikut panduan rasmi?</summary><p>Pengiraan mengikut GPPKK Bab 7 (Jadual 7.3), contoh sasaran daripada Bab 8, dan instrumen kompetensi daripada Garis Panduan Instrumen PBPPP. Skor akhir disalin ke e-Prestasi oleh PP1.</p></details>
+   <details><summary>Bagaimana jika guru bertukar sekolah atau jawatan?</summary><p>Admin mengemas kini senarai guru, PP1 dan PP2 dalam menu Admin, atau import semula dari Excel.</p></details>
+   <details><summary>Betul percuma?</summary><p>Ya. Sumbangan "belanja kopi" adalah pilihan dan tidak menjejaskan akses.</p></details>
+   <details><summary>Bagaimana mendaftarkan sekolah saya?</summary><p>E-mel <a href="mailto:cikgujep@gmail.com?subject=Daftar%20sekolah%20myPBPPP&amp;body=Kod%20sekolah%3A%20%0D%0ANama%20sekolah%3A%20%0D%0AE-mel%20admin%20(akaun%20sekolah)%3A%20%0D%0ANo.%20telefon%3A%20">cikgujep@gmail.com</a> dengan kod sekolah, nama sekolah dan e-mel admin. Selepas sekolah didaftarkan dalam pusat lesen, admin memasukkan kod sekolah semasa aktivasi. Percuma.</p></details>
+  </div>
+ </div>
+</section>
+
+<section class="penutup">
+ <div class="bekas">
+  <h2>Sedia untuk kitaran PBPPP yang lebih tenang?</h2>
+  <p class="sub">Cuba demo dengan data contoh. Tiada log masuk diperlukan.</p>
+  <div class="cta"><a class="butang utama" href="https://script.google.com/macros/s/AKfycbyWWGP9T7_lAWCRE5S2_80E60N5PB6us9jEVgOYtVwvQ8KT93MAHEd48OvefdPRjPT1JA/exec?p=demo">Cuba demo</a><a class="butang" href="mailto:cikgujep@gmail.com?subject=Daftar%20sekolah%20myPBPPP&amp;body=Kod%20sekolah%3A%20%0D%0ANama%20sekolah%3A%20%0D%0AE-mel%20admin%20(akaun%20sekolah)%3A%20%0D%0ANo.%20telefon%3A%20">Daftarkan sekolah</a></div>
+ </div>
+</section>
+</main>
+
+<footer><div class="bekas"><span>myPBPPP versi 1.0</span><span>Dibangunkan oleh guru, untuk guru.</span></div></footer>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function () {
+  // Tab modul
+  var tab = [].slice.call(document.querySelectorAll('[role="tab"]'));
+  tab.forEach(function (b, i) {
+    b.onclick = function () { pilih(i); };
+    b.onkeydown = function (e) { if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') { var j = (i + (e.key === 'ArrowRight' ? 1 : tab.length - 1)) % tab.length; pilih(j); tab[j].focus(); } };
+  });
+  function pilih(i) {
+    tab.forEach(function (b, j) { b.setAttribute('aria-selected', String(i === j)); b.tabIndex = i === j ? 0 : -1; document.getElementById(b.getAttribute('aria-controls')).hidden = i !== j; });
+  }
+  pilih(0);
+  // Kalkulator
+  var g = document.getElementById('k-guru'), m = document.getElementById('k-minit');
+  function kira() {
+    document.getElementById('v-guru').textContent = g.value;
+    document.getElementById('v-minit').textContent = m.value;
+    var jam = Math.round(Number(g.value) * Number(m.value) * 4 / 60);
+    document.getElementById('v-jam').textContent = jam.toLocaleString('ms-MY') + ' jam';
+  }
+  g.oninput = kira; m.oninput = kira; kira();
+  // Salin nombor akaun
+  var t = document.getElementById('toast'), masa;
+  function toast(s) { t.textContent = s; t.classList.add('ada'); clearTimeout(masa); masa = setTimeout(function () { t.classList.remove('ada'); }, 2200); }
+  document.getElementById('salin').onclick = function () {
+    var no = document.getElementById('no-akaun').textContent;
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(no).then(function () { toast('Disalin: ' + no + '. Terima kasih!'); }, function () { toast('Nombor akaun: ' + no); });
+    else toast('Nombor akaun: ' + no);
+  };
+})();
+</script>
+</body>
+</html>
