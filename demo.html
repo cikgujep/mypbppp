@@ -177,7 +177,7 @@ var SKEMA = {
     'catatan_pp', 'dibawa_semester', 'dikemas_kini'],
   Komen: ['komen_id', 'sasaran_id', 'oleh_email', 'peranan', 'teks', 'masa'],
   // Modul Kompetensi (Kompetensi.gs). Tab dicipta automatik jika tiada.
-  Kompetensi: ['komp_id', 'email', 'tahun', 'aspek', 'aras_pyd', 'evidens', 'pautan', 'aras_pp', 'oleh_pp', 'catatan_pp', 'dikemas_kini'],
+  Kompetensi: ['komp_id', 'email', 'tahun', 'aspek', 'aras_pyd', 'evidens', 'pautan', 'aras_pp', 'oleh_pp', 'catatan_pp', 'dikemas_kini', 'aras_pp2'],
   Kompetensi_Status: ['ks_id', 'email', 'tahun', 'instrumen', 'sign_pyd', 'sign_pp2', 'sign_pp1', 'catatan_pulang', 'dikemas_kini'],
   Log: ['masa', 'email', 'tindakan', 'rujukan', 'nilai_lama', 'nilai_baru']
 };
@@ -1886,8 +1886,9 @@ var INSTRUMEN_KOMPETENSI = {"dimensi":{"D1":"PROFESIONALISME","D2":"PELIBATAN","
  *  1. PYD mengisi aras 1-5 dan evidens bagi setiap aspek, kemudian menghantar (sign_pyd).
  *     Evidens ialah satu kotak bersama: PP1 dan PP2 juga boleh menambah evidens (temu bual, pemerhatian, pencerapan)
  *     dalam kotak yang sama pada bila-bila masa sebelum PP1 mengesahkan.
- *  2. PP1 dan PP2 menyemak. Kedua-duanya boleh mengubah aras (aras_pp) dengan catatan, atau memulangkan
- *     borang kepada PYD. Aras muktamad = aras PP jika ada, jika tidak aras PYD.
+ *  2. PP1 dan PP2 menyemak. Setiap PP ada lajur aras sendiri (PP1: aras_pp, PP2: aras_pp2) dengan catatan bersama,
+ *     atau memulangkan borang kepada PYD. PP2 boleh menyalin aras PP1 (atau PYD jika PP1 belum menilai).
+ *     Aras muktamad = aras PP1 jika ada, jika tidak aras PP2, jika tidak aras PYD.
  *  3. PP2 mengesahkan (pilihan), PP1 mengesahkan. Selepas PP1 mengesahkan, semua medan dikunci.
  *
  * Markah (formula Sheet Rumusan sekolah):
@@ -1930,11 +1931,13 @@ function arasSah_(v) {
   return n >= 1 && n <= 5 && Math.floor(n) === n ? n : null;
 }
 
-/** Aras muktamad satu aspek: aras PP jika ada, jika tidak aras PYD. */
+/** Aras muktamad satu aspek: aras PP1 jika ada, jika tidak aras PP2, jika tidak aras PYD. */
 function arasMuktamad_(n) {
   if (!n) return null;
-  var pp = arasSah_(n.aras_pp);
-  return pp !== null ? pp : arasSah_(n.aras_pyd);
+  var pp1 = arasSah_(n.aras_pp);
+  if (pp1 !== null) return pp1;
+  var pp2 = arasSah_(n.aras_pp2);
+  return pp2 !== null ? pp2 : arasSah_(n.aras_pyd);
 }
 
 /** Skor keberhasilan untuk Rumusan: skor lebih tinggi antara P1 dan akhir (Sheet: IF(akhir<P1, P1, akhir)). */
@@ -2067,7 +2070,7 @@ function pakejNilaiKompetensi_(email, sebagai, guru) {
   barisKompetensi_(email, tahun).forEach(function (r) {
     nilai[String(r.aspek)] = {
       aras_pyd: arasSah_(r.aras_pyd), evidens: String(r.evidens || ''), pautan: String(r.pautan || ''),
-      aras_pp: arasSah_(r.aras_pp), catatan_pp: String(r.catatan_pp || ''),
+      aras_pp: arasSah_(r.aras_pp), aras_pp2: arasSah_(r.aras_pp2), catatan_pp: String(r.catatan_pp || ''),
       oleh_pp: r.oleh_pp ? (sama_(r.oleh_pp, pp1) ? 'PP1' : 'PP2') : ''
     };
   });
@@ -2229,7 +2232,8 @@ function simpanKompetensiPYD(senarai) {
 }
 
 /**
- * PP1 atau PP2: senarai [{aspek, aras?, catatan?, evidens?}]. aras '' = guna aras PYD.
+ * PP1 atau PP2: senarai [{aspek, aras?, catatan?, evidens?}]. Aras ditulis ke lajur peranan sendiri
+ * (PP1: aras_pp, PP2: aras_pp2; pengguna yang PP1 dan PP2 bagi PYD sama dikira PP1). aras '' = kosongkan.
  * Evidens (kotak bersama dengan PYD) boleh ditambah sebelum PYD menghantar; aras dan catatan hanya selepas PYD menghantar.
  */
 function simpanKompetensiPP(emailPyd, senarai) {
@@ -2246,18 +2250,19 @@ function simpanKompetensiPP(emailPyd, senarai) {
     if (!(k.status && k.status.sign_pyd)) throw new Error('PYD belum menghantar penilaian kendiri.');
     throw new Error('Anda telah mengesahkan. Tarik balik pengesahan untuk membuat perubahan.');
   }
+  var lajurAras = k.sebagai.indexOf('PP1') >= 0 ? 'aras_pp' : 'aras_pp2';
   var tulis = senaraiP.map(function (d) {
     aspekRekod_(k, d.aspek);
     var ubah = {};
     if (d.aras !== undefined) ubah.oleh_pp = k.pengguna.email;
-    if (d.aras !== undefined) ubah.aras_pp = arasInput_(d.aras);
+    if (d.aras !== undefined) ubah[lajurAras] = arasInput_(d.aras);
     if (d.catatan !== undefined) ubah.catatan_pp = teksSah_(d.catatan, 'Catatan');
     if (d.evidens !== undefined) ubah.evidens = teksSah_(d.evidens, 'Evidens');
     if (!Object.keys(ubah).length) throw new Error('Tiada perubahan.');
     return { aspek: d.aspek, ubah: ubah };
   });
   tulisAspekBanyak_(k, tulis);
-  log_(k.pengguna.email, 'KOMP_PP', k.email, '', tulis.map(function (x) { return x.aspek + (x.ubah.aras_pp !== undefined ? '=' + x.ubah.aras_pp : ' ' + Object.keys(x.ubah).join(',')); }).join(' '));
+  log_(k.pengguna.email, 'KOMP_PP', k.email, '', tulis.map(function (x) { return x.aspek + (x.ubah[lajurAras] !== undefined ? (lajurAras === 'aras_pp' ? '=PP1:' : '=PP2:') + x.ubah[lajurAras] : ' ' + Object.keys(x.ubah).join(',')); }).join(' '));
   return selesaiKompetensi_(k);
 }
 
@@ -3329,8 +3334,9 @@ function rancangKompetensiContoh_(hasil, email, gred, tahap, i, pp1, pp2, tahun,
     if (dihantar && ki['Temu Bual'] && ki['Temu Bual'][0] && j % 4 === 1) baris.push('Temu bual: ' + ki['Temu Bual'][0]);
     var r = { komp_id: idKompetensi_(email, tahun, a.id), email: email, tahun: tahun, aspek: a.id, aras_pyd: aras,
       evidens: baris.filter(Boolean).join(String.fromCharCode(10)), pautan: '',
-      aras_pp: '', oleh_pp: '', catatan_pp: '' };
-    if (dihantar && j % 9 === 4) { r.aras_pp = aras === 5 ? 4 : aras + 1; r.oleh_pp = j % 2 ? pp2 : pp1; r.catatan_pp = aras === 5 ? 'Evidens belum menunjukkan konsistensi sepanjang tahun.' : 'Evidens tambahan menyokong aras lebih tinggi.'; }
+      aras_pp: '', aras_pp2: '', oleh_pp: '', catatan_pp: '' };
+    // Contoh: sesetengah aspek diubah PP1 (lajur aras_pp), sesetengah oleh PP2 (lajur aras_pp2)
+    if (dihantar && j % 9 === 4) { r[j % 2 ? 'aras_pp2' : 'aras_pp'] = aras === 5 ? 4 : aras + 1; r.oleh_pp = j % 2 ? pp2 : pp1; r.catatan_pp = aras === 5 ? 'Evidens belum menunjukkan konsistensi sepanjang tahun.' : 'Evidens tambahan menyokong aras lebih tinggi.'; }
     hasil.kompetensi.push(r);
   });
   var st = { email: email, tahun: tahun, instrumen: 'PDP', sign_pyd: '', sign_pp2: '', sign_pp1: '', catatan_pulang: '' };
@@ -5861,7 +5867,7 @@ var EKKompetensi = (function () {
     var v = n(a.id), mukt = arasMuktamad_(v);
     var kepala = el('div', { class: 'ek-komp-aspek-kepala' }, [
       el('div', {}, [el('span', { class: 'ek-komp-kod' }, a.kodBorang || a.kod), el('b', {}, a.nama),
-        v.aras_pp ? el('span', { class: 'ek-komp-diubah' }, 'Diubah ' + (v.oleh_pp || 'PP')) : null]),
+        mukt && v.aras_pyd && mukt !== v.aras_pyd ? el('span', { class: 'ek-komp-diubah' }, 'Diubah ' + (v.aras_pp ? 'PP1' : 'PP2')) : null]),
       el('button', { type: 'button', class: 'ek-butang-teks', 'aria-expanded': String(!!bukaRubrik[a.id]), onclick: function () { bukaRubrik[a.id] = !bukaRubrik[a.id]; ganti(a); } }, bukaRubrik[a.id] ? 'Tutup rubrik' : 'Rubrik')
     ]);
     var isi = [kepala];
@@ -5870,17 +5876,23 @@ var EKKompetensi = (function () {
     isi.push(pemilihAras(a, v.aras_pyd || null, D.boleh.isiPYD, false, 'Aras PYD', function (x) {
       n(a.id).aras_pyd = x; ganti(a); kemasRingkasan(); tangguh('PYD', a.id, { aras: x });
     }));
-    // Aras PP
-    if (adaPP() || v.aras_pp) {
-      isi.push(el('span', { class: 'ek-komp-label' }, 'Aras muktamad PP' + (D.boleh.isiPP && v.aras_pyd ? ' (pilih untuk mengubah)' : '')));
-      var barisPP = [pemilihAras(a, mukt, D.boleh.isiPP && !!v.aras_pyd, true, 'Aras PP', function (x) {
-        n(a.id).aras_pp = x === v.aras_pyd ? null : x; n(a.id).oleh_pp = saya('PP1') ? 'PP1' : 'PP2'; ganti(a); kemasRingkasan();
-        tangguh('PP', a.id, { aras: x === v.aras_pyd ? '' : x });
-      })];
-      if (D.boleh.isiPP && v.aras_pp) barisPP.push(el('button', { type: 'button', class: 'ek-butang-teks', onclick: function () {
-        n(a.id).aras_pp = null; ganti(a); kemasRingkasan(); tangguh('PP', a.id, { aras: '' });
-      } }, 'Guna aras PYD'));
-      isi.push(el('div', {}, barisPP));
+    // Aras PP1 dan PP2 (lajur berasingan). Muktamad: PP1, jika tiada PP2, jika tiada PYD.
+    if (adaPP() || v.aras_pp || v.aras_pp2) {
+      [['PP1', 'aras_pp'], ['PP2', 'aras_pp2']].forEach(function (x) {
+        var peranan = x[0], medan = x[1];
+        // Lajur PP ini boleh diubah oleh pengguna dengan peranan itu (PP1 diutamakan jika pengguna memegang kedua-duanya)
+        var milik = peranan === 'PP1' ? saya('PP1') : (saya('PP2') && !saya('PP1'));
+        if (!milik && !v[medan]) return;
+        var boleh = milik && D.boleh.isiPP && !!v.aras_pyd;
+        isi.push(el('span', { class: 'ek-komp-label' }, 'Aras ' + peranan + (peranan === 'PP1' ? ' (muktamad)' : '') + (boleh && !v[medan] ? ': belum dinilai, pilih aras' : '')));
+        var baris = [pemilihAras(a, v[medan] || null, boleh, true, 'Aras ' + peranan, function (y) {
+          n(a.id)[medan] = y; ganti(a); kemasRingkasan(); tangguh('PP', a.id, { aras: y });
+        })];
+        if (boleh && v[medan]) baris.push(el('button', { type: 'button', class: 'ek-butang-teks', onclick: function () {
+          n(a.id)[medan] = null; ganti(a); kemasRingkasan(); tangguh('PP', a.id, { aras: '' });
+        } }, 'Kosongkan'));
+        isi.push(el('div', {}, baris));
+      });
     }
     if (mukt) isi.push(el('p', { class: 'ek-komp-rubrik-ringkas' }, mukt + ' ' + D.labelAras[mukt] + ': ' + a.rubrik[5 - mukt][0]));
     if (bukaRubrik[a.id]) isi.push(panelRubrik(a, mukt));
@@ -5978,6 +5990,22 @@ var LABEL_KAEDAH = { 'Temu Bual': 'Temu bual', Pemerhatian: 'Pemerhatian', Pence
     })));
   }
 
+  /** PP2: isi lajur PP2 dengan aras PP1 bagi setiap aspek; jika PP1 belum menilai aspek itu, guna aras PYD. */
+  function salinArasPP1() {
+    var dariPP1 = 0, dariPYD = 0, sama = 0;
+    D.instrumen.aspek.forEach(function (a) {
+      var v = n(a.id), pp1 = arasSah_(v.aras_pp), sumber = pp1 !== null ? pp1 : arasSah_(v.aras_pyd);
+      if (sumber === null) return;
+      if (arasSah_(v.aras_pp2) === sumber) { sama++; return; }
+      if (pp1 !== null) dariPP1++; else dariPYD++;
+      v.aras_pp2 = sumber;
+      tangguh('PP', a.id, { aras: sumber });
+    });
+    if (!dariPP1 && !dariPYD) { EK.mesej(sama ? 'Aras PP2 sudah sama dengan PP1.' : 'Tiada aras untuk disalin.'); return; }
+    flush(); render();
+    EK.mesej('Disalin ke PP2: ' + dariPP1 + ' aspek daripada PP1' + (dariPYD ? ', ' + dariPYD + ' daripada PYD (PP1 belum menilai)' : '') + '.', 5000);
+  }
+
   // ---------- Kepala, status dan tindakan ----------
   function binaKepala() {
     var p = D.pyd, st = D.status, isi = [];
@@ -5989,13 +6017,18 @@ var LABEL_KAEDAH = { 'Temu Bual': 'Temu bual', Pemerhatian: 'Pemerhatian', Pence
       pilih = el('label', {}, ['Instrumen', s]);
     } else pilih = el('div', { class: 'sub' }, 'Instrumen: ' + D.instrumen.label);
     isi.push(el('div', { class: 'ek-komp-kepala' }, [tajuk, pilih]));
-    isi.push(el('div', { class: 'ek-alat' }, el('button', { type: 'button', class: 'ek-butang', 'aria-pressed': String(bukaSemuaEv), onclick: function () { bukaSemuaEv = !bukaSemuaEv; bukaEvidens = {}; render(); } }, bukaSemuaEv ? 'Tutup semua evidens' : 'Buka semua evidens')));
+    var alat = [el('button', { type: 'button', class: 'ek-butang', 'aria-pressed': String(bukaSemuaEv), onclick: function () { bukaSemuaEv = !bukaSemuaEv; bukaEvidens = {}; render(); } }, bukaSemuaEv ? 'Tutup semua evidens' : 'Buka semua evidens')];
+    // PP2: salin aras PP1 ke lajur PP2 (aspek yang PP1 belum nilai: salin aras PYD)
+    if (saya('PP2') && !saya('PP1') && D.boleh.isiPP) alat.push(el('button', { type: 'button', class: 'ek-butang', onclick: salinArasPP1 }, 'Salin aras PP1'));
+    isi.push(el('div', { class: 'ek-alat' }, alat));
     if (kembali) isi.unshift(el('div', { class: 'ek-alat', style: 'margin-top:0;margin-bottom:var(--space-sm)' }, el('button', { type: 'button', class: 'ek-butang', onclick: kembali }, '← Senarai PYD')));
     if (!D.boleh.buka) isi.push(el('p', { class: 'ek-komp-nota' }, 'Penilaian kompetensi dibuka dari fasa Penilaian pertama hingga Penilaian akhir. Anda boleh membaca instrumen dan rubrik sekarang.'));
     if (D.jenis === 'PDP' && !D.instrumen.aspek.some(function (x) { return x.id === 'D1.A5.2'; })) isi.push(el('p', { class: 'ek-komp-nota' }, 'Borang PdP DG9: aspek A5.2 Keupayaan Melaksanakan Bimbingan dan Pementoran tidak dinilai. E5 dikira daripada A5.1 sahaja.'));
     if (st.catatan_pulang && !st.sign_pyd) isi.push(el('p', { class: 'ek-komp-nota amaran' }, [el('b', {}, 'Dipulangkan oleh PP: '), st.catatan_pulang]));
     if (D.boleh.isiPYD) isi.push(el('p', { class: 'sub', style: 'margin:var(--space-sm) 0 0' }, 'Pilih aras bagi setiap aspek berdasarkan rubrik, dan catat evidens. Kerja disimpan automatik. Hantar kepada PP apabila semua aspek dinilai.'));
-    if (D.boleh.isiPP) isi.push(el('p', { class: 'sub', style: 'margin:var(--space-sm) 0 0' }, 'Aras muktamad mengikut aras PYD kecuali anda mengubahnya. Pilih aras lain untuk mengubah, dan nyatakan sebab dalam catatan.'));
+    if (D.boleh.isiPP) isi.push(el('p', { class: 'sub', style: 'margin:var(--space-sm) 0 0' }, saya('PP1')
+      ? 'Pilih aras PP1 bagi setiap aspek. Aras muktamad ialah aras PP1; aspek yang belum anda nilai mengikut aras PP2, kemudian aras PYD. Nyatakan sebab dalam catatan jika berbeza.'
+      : 'Pilih aras PP2 bagi setiap aspek, atau klik Salin aras PP1. Aras PP1 diutamakan sebagai aras muktamad.'));
     else if (D.boleh.isiEvidensPP) isi.push(el('p', { class: 'sub', style: 'margin:var(--space-sm) 0 0' }, 'Anda boleh menambah evidens (temu bual, pemerhatian, pencerapan) dalam kotak evidens yang sama dengan PYD. Aras boleh diubah selepas PYD menghantar penilaian kendiri.'));
     return el('div', { class: 'kad' }, isi);
   }
