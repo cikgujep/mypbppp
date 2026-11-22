@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Panduan pemasangan myPBPPP</title>
+<meta name="description" content="Panduan pemasangan myPBPPP langkah demi langkah untuk admin sekolah, dengan ilustrasi. Tidak perlu latar belakang ICT.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@600;700&family=Red+Hat+Text:wght@400;500&family=Red+Hat+Mono:wght@500&display=swap">
+<style>
+:root{color-scheme:light;--kertas:#f6f2ea;--kertas2:#efe8dc;--kad:#fffdf9;--dakwat:#1c1a17;--dakwat2:#4a453e;--redup:#776f63;--garis:#e0d7c8;
+  --aksen:#e8642c;--aksen-lembut:#fbe3d6;--hijau:#2e7d4f;--hijau-lembut:#dcefe2;--kuning:#fff4d1;
+  --muka:"Red Hat Display",system-ui,sans-serif;--teks:"Red Hat Text",system-ui,sans-serif;--mono:"Red Hat Mono",ui-monospace,monospace;
+  --g-biru:#1a73e8;--g-kelabu:#5f6368;--g-garis:#dadce0}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--kertas);color:var(--dakwat);font:18px/1.7 var(--teks);-webkit-font-smoothing:antialiased}
+a{color:inherit}
+h1,h2,h3{font-family:var(--muka);line-height:1.2;margin:0;letter-spacing:-.015em}
+.bekas{max-width:900px;margin:0 auto;padding:0 20px}
+.nav{position:sticky;top:0;z-index:10;background:color-mix(in oklab,var(--kertas) 90%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--garis)}
+.nav .bekas{display:flex;align-items:center;gap:16px;min-height:60px}
+.jenama{display:flex;align-items:center;gap:10px;font:700 1.1rem var(--muka);text-decoration:none}
+.jenama i{display:grid;place-items:center;width:32px;height:32px;border-radius:9px;background:var(--dakwat);color:var(--kertas);font:700 .75rem var(--muka);font-style:normal}
+.nav a.kanan{margin-left:auto;font-weight:500;font-size:.95rem}
+header{padding:48px 0 20px}
+header h1{font-size:clamp(2rem,5vw,2.8rem)}
+header p{color:var(--dakwat2);max-width:44rem}
+.sedia{margin:22px 0 0;padding:20px 22px;border-radius:18px;background:var(--kad);border:1px solid var(--garis)}
+.sedia h2{font-size:1.15rem;margin-bottom:8px}
+.sedia ul{margin:0;padding-left:1.2rem}
+.sedia li{margin:4px 0}
+ol.langkah{list-style:none;margin:36px 0 0;padding:0;counter-reset:l}
+ol.langkah>li{position:relative;margin:0 0 40px;padding:28px 28px 28px 92px;border-radius:24px;background:var(--kad);border:1px solid var(--garis);counter-increment:l}
+ol.langkah>li::before{content:counter(l);position:absolute;left:24px;top:24px;display:grid;place-items:center;width:48px;height:48px;border-radius:50%;background:var(--aksen);color:#fff;font:700 1.3rem var(--muka)}
+ol.langkah h3{font-size:1.35rem;margin-bottom:8px}
+ol.langkah p{margin:0 0 12px}
+.klik{display:inline-block;padding:1px 10px;border-radius:8px;background:var(--aksen-lembut);color:var(--aksen);font-weight:600;white-space:nowrap}
+.nota{margin:12px 0 0;padding:12px 16px;border-radius:12px;background:var(--kuning);font-size:.95rem}
+.nota b{color:#8a5a00}
+.ok{background:var(--hijau-lembut)}
+@media (max-width:640px){ol.langkah>li{padding:80px 18px 22px}ol.langkah>li::before{left:18px;top:18px}}
+/* Ilustrasi skrin Google (dilukis, bukan tangkapan skrin) */
+.ilu{margin:16px 0 4px;border-radius:12px;border:1px solid var(--g-garis);background:#fff;color:#202124;font:14px/1.4 Arial,Helvetica,sans-serif;overflow:hidden;box-shadow:0 6px 20px rgba(0,0,0,.06)}
+.ilu .tajuk-ilu{padding:6px 12px;background:#f1f3f4;border-bottom:1px solid var(--g-garis);font-size:12px;color:var(--g-kelabu)}
+.ilu .isi{position:relative;padding:16px}
+.menu-bar{display:flex;flex-wrap:wrap;gap:2px 14px;padding:4px 0 10px;border-bottom:1px solid var(--g-garis);color:#3c4043}
+.menu-bar span{padding:2px 6px;border-radius:4px}
+.sorot{outline:3px solid var(--aksen);outline-offset:2px;border-radius:6px;background:#fff7f2!important;position:relative}
+.sorot::after{content:"KLIK";position:absolute;top:-12px;right:-12px;padding:1px 6px;border-radius:6px;background:var(--aksen);color:#fff;font:700 10px/1.4 Arial;letter-spacing:.04em}
+.dropdown{display:inline-block;margin:6px 0 0 120px;padding:6px 0;min-width:220px;border-radius:6px;background:#fff;box-shadow:0 2px 10px rgba(0,0,0,.2)}
+.dropdown div{padding:6px 16px}
+.dialog{max-width:420px;margin:6px auto;padding:20px;border-radius:8px;box-shadow:0 4px 20px rgba(0,0,0,.2);background:#fff}
+.dialog h4{margin:0 0 12px;font:400 20px Arial}
+.dialog .medan{margin:10px 0;padding:8px 10px;border:1px solid var(--g-garis);border-radius:4px}
+.dialog .medan small{display:block;color:var(--g-kelabu);font-size:11px}
+.dialog .butang-g{display:inline-block;margin-top:10px;padding:8px 18px;border-radius:4px;background:var(--g-biru);color:#fff;font-weight:700}
+.dialog .butang-t{display:inline-block;margin:10px 10px 0 0;padding:8px 12px;color:var(--g-biru);font-weight:700}
+.kanan-atas{display:flex;justify-content:flex-end;gap:8px;padding-bottom:8px;border-bottom:1px solid var(--g-garis)}
+.btn-deploy{padding:6px 14px;border-radius:4px;background:var(--g-biru);color:#fff;font-weight:700}
+.url{font-family:var(--mono);font-size:12px;padding:8px;border-radius:4px;background:#f1f3f4;word-break:break-all}
+figcaption{font-size:.85rem;color:var(--redup);margin-top:6px}
+.masalah details{margin:10px 0;padding:14px 18px;border-radius:14px;background:var(--kad);border:1px solid var(--garis)}
+.masalah summary{cursor:pointer;font-weight:600}
+.masalah p{margin:8px 0 0;color:var(--dakwat2)}
+footer{margin-top:40px;padding:28px 0;color:var(--redup);font-size:.9rem;border-top:1px solid var(--garis)}
+footer .bekas{display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px}
+</style>
+</head>
+<body>
+<nav class="nav"><div class="bekas"><a class="jenama" href="./"><i aria-hidden="true">my</i>myPBPPP</a><a class="kanan" href="panduan.html">Panduan penggunaan →</a></div></nav>
+<header>
+ <div class="bekas">
+  <h1>Panduan pemasangan myPBPPP</h1>
+  <p>Untuk admin sekolah. Ikut 7 langkah ini satu demi satu; tiada kemahiran ICT diperlukan. Anggaran masa: 15 minit. Gambar di bawah ialah <b>ilustrasi</b> skrin Google; butang yang perlu diklik ditanda <span class="klik">KLIK</span>.</p>
+  <div class="sedia">
+   <h2>Sebelum mula, sediakan:</h2>
+   <ul>
+    <li><b>Komputer atau komputer riba</b> (bukan telefon), dengan pelayar Google Chrome.</li>
+    <li><b>Akaun moe-dl</b> yang anda gunakan semasa mendaftar (contoh nama@moe-dl.edu.my). Log masuk dahulu di <a href="https://accounts.google.com" target="_blank" rel="noopener">accounts.google.com</a>.</li>
+    <li><b>E-mel pendaftaran myPBPPP</b>, yang mengandungi kod sekolah dan pautan salinan.</li>
+   </ul>
+  </div>
+ </div>
+</header>
+
+<main class="bekas">
+ <ol class="langkah">
+  <li>
+   <h3>Buat salinan sistem</h3>
+   <p>Dalam e-mel pendaftaran, klik pautan salinan (bermula dengan <i>docs.google.com/spreadsheets</i>). Satu kotak akan muncul. Klik <span class="klik">Buat salinan</span> (<i>Make a copy</i>).</p>
+   <figure><div class="ilu"><div class="tajuk-ilu">docs.google.com</div><div class="isi"><div class="dialog"><h4>Salin dokumen?</h4><p style="margin:0 0 8px">Adakah anda mahu membuat salinan <b>myPBPPP - Templat Sekolah</b>?</p><span class="butang-g sorot">Buat salinan</span></div></div></div><figcaption>Ilustrasi: kotak "Buat salinan".</figcaption></figure>
+   <p class="nota"><b>Tip:</b> Salinan disimpan dalam Google Drive akaun anda. Anda boleh tukar namanya, contohnya "myPBPPP SMK Contoh".</p>
+  </li>
+  <li>
+   <h3>Buka Apps Script</h3>
+   <p>Sheet salinan akan dibuka. Di bar menu atas, klik <span class="klik">Sambungan</span> (<i>Extensions</i>), kemudian klik <span class="klik">Apps Script</span>. Satu tab baharu akan dibuka.</p>
+   <figure><div class="ilu"><div class="tajuk-ilu">myPBPPP - Templat Sekolah (salinan)</div><div class="isi"><div class="menu-bar"><span>Fail</span><span>Edit</span><span>Lihat</span><span>Sisip</span><span>Format</span><span>Data</span><span>Alat</span><span class="sorot">Sambungan</span><span>Bantuan</span></div><div class="dropdown"><div>Add-ons</div><div>Makro</div><div class="sorot">Apps Script</div><div>AppSheet</div></div></div></div><figcaption>Ilustrasi: menu Sambungan &gt; Apps Script.</figcaption></figure>
+  </li>
+  <li>
+   <h3>Klik Deploy, kemudian New deployment</h3>
+   <p>Dalam tab Apps Script, <b>jangan ubah apa-apa kod</b>. Di sudut kanan atas, klik butang biru <span class="klik">Deploy</span>, kemudian klik <span class="klik">New deployment</span>.</p>
+   <figure><div class="ilu"><div class="tajuk-ilu">script.google.com</div><div class="isi"><div class="kanan-atas"><span class="btn-deploy sorot">Deploy ▾</span></div><div class="dropdown" style="margin-left:auto;display:block;max-width:220px;margin-right:0"><div class="sorot">New deployment</div><div>Manage deployments</div><div>Test deployments</div></div></div></div><figcaption>Ilustrasi: butang Deploy di kanan atas.</figcaption></figure>
+  </li>
+  <li>
+   <h3>Pilih "Web app" dan isi tetapan</h3>
+   <p>Klik ikon gear ⚙ di sebelah <i>Select type</i>, kemudian pilih <span class="klik">Web app</span>. Isi tiga perkara ini:</p>
+   <ul>
+    <li><b>Description:</b> taip <i>myPBPPP</i></li>
+    <li><b>Execute as:</b> pilih <b>Me</b> (e-mel anda)</li>
+    <li><b>Who has access:</b> pilih <b>Anyone</b></li>
+   </ul>
+   <p>Kemudian klik <span class="klik">Deploy</span>.</p>
+   <figure><div class="ilu"><div class="tajuk-ilu">New deployment</div><div class="isi"><div class="dialog"><h4>New deployment</h4><div class="medan"><small>Select type</small>⚙ <b>Web app</b></div><div class="medan"><small>Description</small>myPBPPP</div><div class="medan sorot"><small>Execute as</small>Me (nama@moe-dl.edu.my)</div><div class="medan sorot"><small>Who has access</small>Anyone</div><span class="butang-t">Cancel</span><span class="butang-g sorot">Deploy</span></div></div></div><figcaption>Ilustrasi: tetapan Web app. Pastikan "Execute as: Me" dan "Who has access: Anyone".</figcaption></figure>
+  </li>
+  <li>
+   <h3>Benarkan akses (sekali sahaja)</h3>
+   <p>Klik <span class="klik">Authorize access</span>, pilih akaun moe-dl anda. Jika muncul amaran <i>"Google hasn't verified this app"</i>, ini <b>biasa</b> untuk sistem milik sekolah sendiri:</p>
+   <ul>
+    <li>Klik <span class="klik">Advanced</span> (Lanjutan) di bawah kiri.</li>
+    <li>Klik <span class="klik">Go to myPBPPP (unsafe)</span>.</li>
+    <li>Klik <span class="klik">Allow</span> (Benarkan).</li>
+   </ul>
+   <figure><div class="ilu"><div class="tajuk-ilu">accounts.google.com</div><div class="isi"><div class="dialog"><h4>Google hasn't verified this app</h4><p style="margin:0;color:#5f6368">The app is requesting access to sensitive info in your Google Account…</p><span class="butang-t sorot">Advanced</span><span class="butang-g">BACK TO SAFETY</span><p style="margin:12px 0 0"><span class="butang-t sorot" style="margin:0">Go to myPBPPP (unsafe)</span></p></div></div></div><figcaption>Ilustrasi: amaran pengesahan Google. Klik Advanced, kemudian Go to … (unsafe).</figcaption></figure>
+   <p class="nota"><b>Kenapa selamat?</b> Sistem ini berjalan dalam akaun Google sekolah anda sendiri, dan data kekal dalam Sheet anda. Amaran ini muncul untuk semua skrip yang tidak dihantar kepada Google untuk semakan rasmi.</p>
+  </li>
+  <li>
+   <h3>Salin URL dan aktifkan dengan kod sekolah</h3>
+   <p>Selepas deploy, satu kotak menunjukkan <b>Web app URL</b> (berakhir dengan <i>/exec</i>). Klik <span class="klik">Copy</span>, buka tab baharu, tampal dan tekan Enter. Masukkan <b>kod sekolah</b> (contoh JEA1234) dan klik <span class="klik">Aktifkan sistem</span>.</p>
+   <figure><div class="ilu"><div class="tajuk-ilu">Deployment successfully updated</div><div class="isi"><div class="dialog"><h4>New deployment</h4><div class="medan"><small>Web app URL</small><div class="url">https://script.google.com/macros/s/AKfy…/exec</div></div><span class="butang-t sorot">Copy</span><span class="butang-g">Done</span></div></div></div><figcaption>Ilustrasi: salin Web app URL.</figcaption></figure>
+   <p class="nota ok"><b>Simpan URL ini.</b> Inilah pautan myPBPPP sekolah anda. Tanda (bookmark) dalam Chrome.</p>
+  </li>
+  <li>
+   <h3>Daftar guru dan kongsi pautan</h3>
+   <p>Selepas aktif, anda menjadi <b>admin</b>. Dalam menu <b>Admin</b>:</p>
+   <ul>
+    <li><b>Import guru</b>: tampal senarai dari Excel (e-mel, nama, No. K/P, gred, jawatan, tempat bertugas, e-mel PP1, e-mel PP2), atau tambah satu demi satu di tab <b>Guru</b>.</li>
+    <li><b>Jawatan</b>: tandakan jawatan yang ada di sekolah.</li>
+    <li><b>Sekolah dan fasa</b>: buka fasa <b>Penetapan</b> dan tetapkan tarikh tutup.</li>
+   </ul>
+   <p>Akhir sekali, kongsi <b>Web app URL</b> kepada semua guru (contohnya melalui WhatsApp). Guru log masuk dengan akaun moe-dl masing-masing. Lihat <a href="panduan.html">panduan penggunaan</a> untuk guru, PP dan admin.</p>
+  </li>
+ </ol>
+
+ <section class="masalah" aria-labelledby="mslh">
+  <h2 id="mslh" style="font-size:1.5rem;margin:8px 0 12px">Masalah lazim</h2>
+  <details><summary>"Akaun tidak dapat dikenal pasti" atau "Akaun anda belum didaftarkan"</summary><p>Log masuk dengan akaun moe-dl, kemudian buka semula pautan. Guru yang belum didaftarkan oleh admin tidak boleh membuka sistem: tambah mereka dalam Admin &gt; Guru.</p></details>
+  <details><summary>Saya tidak nampak menu "Sambungan"</summary><p>Pastikan anda membuka Sheet salinan (bukan templat asal) dengan akaun yang membuat salinan. Dalam bahasa Inggeris, menu ini dinamakan "Extensions".</p></details>
+  <details><summary>"Kod sekolah tidak berdaftar"</summary><p>Pastikan kod ditaip seperti dalam e-mel pendaftaran (3 huruf dan 4 nombor). Jika masih gagal, balas e-mel pendaftaran.</p></details>
+  <details><summary>Saya terlupa Web app URL</summary><p>Buka Sheet salinan &gt; Sambungan &gt; Apps Script &gt; Deploy &gt; Manage deployments. URL dipaparkan di situ.</p></details>
+  <details><summary>Bagaimana mengemas kini sistem kepada versi baharu?</summary><p>Dalam Apps Script, klik <b>Libraries</b> &gt; <b>myPBPPP</b> di panel kiri, pilih versi terbaharu, dan klik Save. Pembangun akan memaklumkan apabila ada versi baharu.</p></details>
+ </section>
+</main>
+<footer><div class="bekas"><span><a href="./">myPBPPP</a> · <a href="panduan.html">Panduan penggunaan</a> · <a href="demo.html">Cuba demo</a></span><span>Perlu bantuan? Balas e-mel pendaftaran anda.</span></div></footer>
+</body>
+</html>

@@ -263,6 +263,33 @@ input.mono{text-transform:uppercase}
 .harga-tamat{display:block;margin-top:6px;padding:4px 12px;border-radius:999px;background:var(--aksen-lembut);color:var(--aksen);font-size:.85rem;font-weight:500;width:max-content;max-width:100%}
 .ralat-langkah{font-weight:500;color:#fff}
 .ralat-langkah.ralat{color:#ffd166}
+/* Cuba tulis sasaran */
+.cuba{display:grid;gap:12px;padding:20px;border-radius:18px;background:var(--kertas);font-size:.92rem}
+.cuba-kepala{display:grid}
+.cuba-kepala b{font:600 1.05rem var(--muka)}
+.cuba-contoh{display:flex;flex-wrap:wrap;gap:6px}
+.cuba-contoh button{min-height:32px;padding:0 12px;border-radius:999px;border:1px solid var(--garis);background:var(--kad);color:var(--dakwat2);font:500 .82rem var(--teks);cursor:pointer}
+.cuba-contoh button:hover{border-color:var(--aksen);color:var(--aksen)}
+.cuba-medan{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.cuba-medan label{display:grid;gap:4px;font-weight:500;font-size:.8rem;color:var(--dakwat2);padding-left:10px;border-left:3px solid}
+.cuba-medan .c1{border-color:var(--aksen)}.cuba-medan .c2{border-color:var(--air)}.cuba-medan .c3{border-color:var(--hijau)}.cuba-medan .c4{border-color:var(--garis)}
+.cuba-medan small{font-weight:400;color:var(--redup)}
+.cuba input,.cuba select{width:100%;min-height:40px;padding:0 10px;border:1px solid var(--garis);border-radius:10px;background:var(--kad);color:var(--dakwat);font:400 .92rem var(--teks)}
+.cuba input:focus-visible,.cuba select:focus-visible{outline:2px solid var(--aksen);outline-offset:1px}
+.cuba-ayat{margin:0;padding:12px 14px;border-radius:12px;background:var(--kad);line-height:1.9;min-height:3em}
+.cuba-ayat span{padding:2px 4px;border-radius:5px}
+.cuba-ayat .s1{background:var(--aksen-lembut)}.cuba-ayat .s2{background:var(--air-lembut)}.cuba-ayat .s3{background:var(--hijau-lembut)}.cuba-ayat .s4{background:var(--kertas2)}
+.cuba-ayat .kosong{color:var(--redup);font-style:italic}
+.cuba-semak{margin:0;padding:0;list-style:none;display:grid;gap:4px}
+.cuba-semak li{display:flex;gap:8px;align-items:flex-start}
+.cuba-semak li::before{flex:none;display:grid;place-items:center;width:18px;height:18px;margin-top:2px;border-radius:50%;font-size:.7rem;font-weight:700}
+.cuba-semak li.ya::before{content:"✓";background:var(--hijau-lembut);color:var(--hijau)}
+.cuba-semak li.tidak::before{content:"!";background:var(--aksen-lembut);color:var(--aksen)}
+.cuba-markah{display:flex;flex-wrap:wrap;align-items:flex-end;gap:10px 14px;padding-top:10px;border-top:1px solid var(--garis)}
+.cuba-markah label{display:grid;gap:4px;width:110px;font-size:.8rem;color:var(--dakwat2);font-weight:500}
+.cuba-markah span{flex:1;color:var(--dakwat2)}
+.cuba-markah b{font:700 1.6rem var(--muka);color:var(--aksen)}
+@media (max-width:560px){.cuba-medan{grid-template-columns:1fr}}
 /* Penutup */
 .penutup{text-align:center;padding:96px 0;background:var(--kertas2)}
 .penutup h2{max-width:38rem;margin:0 auto 14px}
@@ -359,9 +386,19 @@ footer .bekas{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px
   <div class="panel-modul" role="tabpanel" id="m1" aria-labelledby="t1">
    <div><h3>Tulis sasaran yang betul sejak awal</h3><p class="sub">Pembina sasaran memandu guru mengikut formula GPPKK, dengan contoh penulisan mengikut jawatan dan bidang tugas.</p>
     <ul><li>Contoh Bab 8 dan contoh sekolah ditapis ikut bidang</li><li>Amaran segera jika ayat tiada ukuran atau tujuan</li><li>Pencapaian dan markah dikira semasa menaip</li></ul></div>
-   <div class="ilustrasi"><div class="rumus"><span style="background:var(--aksen-lembut)">Kata kerja</span>+<span style="background:var(--air-lembut)">Penyata ukuran</span>+<span style="background:var(--hijau-lembut)">Tujuan</span>+<span style="background:var(--kertas2)">Peringkat</span></div>
-    <p style="margin:14px 0 0">Memastikan <b>20 daripada 30 murid</b> 5 Delima mendapat gred A dalam peperiksaan akhir tahun.</p>
-    <div class="t" style="margin-top:12px"><span>Pencapaian 18 ÷ 20 × 100</span><b>90%</b></div></div>
+   <div class="cuba" id="cuba-sasaran">
+    <div class="cuba-kepala"><b>Cuba sendiri</b><span class="sub">Tulis satu sasaran dan lihat semakan segera.</span></div>
+    <div class="cuba-contoh"><button type="button" data-c="baik">Contoh baik</button><button type="button" data-c="lemah">Contoh lemah</button><button type="button" data-c="kosong">Kosongkan</button></div>
+    <div class="cuba-medan">
+     <label class="c1">Kata kerja<select id="c-kk"><option>Memastikan</option><option>Mencapai</option><option>Menghasilkan</option><option>Meningkatkan</option><option>Mengurangkan</option><option>Menyelesaikan</option><option>Menghadiri</option><option>Membantu</option></select></label>
+     <label class="c2">Penyata ukuran<input id="c-uk" placeholder="20 daripada 30 murid 5 Delima"></label>
+     <label class="c3">Tujuan<input id="c-tj" placeholder="mendapat gred A Matematik"></label>
+     <label class="c4">Peringkat <small>(jika perlu)</small><input id="c-pk" placeholder="dalam peperiksaan akhir tahun"></label>
+    </div>
+    <p class="cuba-ayat" id="c-ayat" aria-live="polite"></p>
+    <ul class="cuba-semak" id="c-semak"></ul>
+    <div class="cuba-markah"><label>Pencapaian<input id="c-capai" inputmode="decimal" value="18"></label><span id="c-kira"></span><b id="c-markah"></b></div>
+   </div>
   </div>
   <div class="panel-modul" role="tabpanel" id="m2" aria-labelledby="t2" hidden>
    <div><h3>Penilaian kompetensi tanpa membuka PDF panduan</h3><p class="sub">Instrumen PdP, PT(A) dan GBK lengkap. Setiap aspek ada deskripsi, kaedah penilaian dan rubrik aras 1 hingga 5.</p>
@@ -594,6 +631,45 @@ footer .bekas{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px
   }
   var bar = document.getElementById('bar-baca');
   if (bar && !kurang) addEventListener('scroll', function () { var h = document.documentElement; bar.style.transform = 'scaleX(' + (h.scrollTop / Math.max(1, h.scrollHeight - h.clientHeight)) + ')'; }, { passive: true });
+  // Cuba tulis sasaran: semakan ringkas mengikut formula GPPKK Bab 7 (kata kerja hasil + ukuran + tujuan + peringkat)
+  (function () {
+    var akar = document.getElementById('cuba-sasaran'); if (!akar) return;
+    var kk = document.getElementById('c-kk'), uk = document.getElementById('c-uk'), tj = document.getElementById('c-tj'), pk = document.getElementById('c-pk'), capai = document.getElementById('c-capai');
+    var HASIL = ['Memastikan', 'Mencapai', 'Menghasilkan', 'Meningkatkan', 'Mengurangkan', 'Menyelesaikan'];
+    var RUTIN = /mesyuarat|hadir|menghadiri|kemas ?kini|takwim|mengisi|menyediakan jadual|bertugas/i;
+    var CONTOH = {
+      baik: ['Memastikan', '20 daripada 30 murid 5 Delima', 'mendapat gred A Matematik', 'dalam peperiksaan akhir tahun'],
+      lemah: ['Menghadiri', 'mesyuarat panitia', '', ''],
+      kosong: ['Memastikan', '', '', '']
+    };
+    function el(t, k, x) { var e = document.createElement(t); if (k) e.className = k; if (x !== undefined) e.textContent = x; return e; }
+    function nombor() { var m = uk.value.match(/(\d+(?:[.,]\d+)?)\s*(%|peratus)?/); return m ? Number(m[1].replace(',', '.')) : null; }
+    function kemas() {
+      var ayat = document.getElementById('c-ayat'); ayat.textContent = '';
+      var bah = [[kk.value, 's1'], [uk.value.trim(), 's2'], [tj.value.trim(), 's3'], [pk.value.trim(), 's4']];
+      if (!bah[1][0] && !bah[2][0]) ayat.appendChild(el('span', 'kosong', 'Taip penyata ukuran dan tujuan di atas…'));
+      bah.forEach(function (b, i) { if (!b[0]) return; if (ayat.childNodes.length) ayat.appendChild(document.createTextNode(' ')); ayat.appendChild(el('span', b[1], b[0])); });
+      if (bah[1][0] || bah[2][0]) ayat.appendChild(document.createTextNode('.'));
+      var n = nombor(), teks = (uk.value + ' ' + tj.value).trim();
+      var semak = [
+        [HASIL.indexOf(kk.value) >= 0, HASIL.indexOf(kk.value) >= 0 ? 'Kata kerja menunjukkan hasil (' + kk.value.toLowerCase() + ')' : '"' + kk.value + '" menerangkan aktiviti, bukan hasil. Guna memastikan, mencapai, menghasilkan…'],
+        [n !== null, n !== null ? 'Ada penyata ukuran yang boleh dikira' : 'Tiada nombor dalam penyata ukuran (contoh: 20 daripada 30 murid, 90%)'],
+        [!!tj.value.trim(), tj.value.trim() ? 'Tujuan dinyatakan' : 'Nyatakan tujuan: apa yang hendak dicapai'],
+        [!RUTIN.test(teks + ' ' + kk.value), RUTIN.test(teks + ' ' + kk.value) ? 'Kelihatan seperti tugas rutin (Jadual 7.2): bukan sasaran keberhasilan' : 'Bukan tugas rutin']
+      ];
+      var ul = document.getElementById('c-semak'); ul.textContent = '';
+      semak.forEach(function (x) { ul.appendChild(el('li', x[0] ? 'ya' : 'tidak', x[1])); });
+      var p = Number(String(capai.value).replace(',', '.')), m = document.getElementById('c-markah'), k = document.getElementById('c-kira');
+      if (n && p >= 0 && capai.value !== '') { var mk = Math.min(100, Math.round(p / n * 100)); k.textContent = 'Nombor sasaran ' + n + ': ' + p + ' ÷ ' + n + ' × 100'; m.textContent = mk + '%'; }
+      else { k.textContent = n ? 'Masukkan pencapaian' : 'Markah dikira selepas ada nombor sasaran'; m.textContent = '-'; }
+    }
+    [kk, uk, tj, pk, capai].forEach(function (x) { x.addEventListener('input', kemas); x.addEventListener('change', kemas); });
+    [].forEach.call(akar.querySelectorAll('[data-c]'), function (b) {
+      b.onclick = function () { var c = CONTOH[b.dataset.c]; kk.value = c[0]; uk.value = c[1]; tj.value = c[2]; pk.value = c[3]; capai.value = b.dataset.c === 'baik' ? '18' : ''; kemas(); (b.dataset.c === 'kosong' ? uk : capai).focus(); };
+    });
+    CONTOH.baik.forEach(function (v, i) { [kk, uk, tj, pk][i].value = v; });
+    kemas();
+  })();
   // Borang daftar: dihantar sebagai JSON (text/plain, tanpa preflight) ke web app master
   var URL_DAFTAR = 'https://script.google.com/macros/s/AKfycbyWWGP9T7_lAWCRE5S2_80E60N5PB6us9jEVgOYtVwvQ8KT93MAHEd48OvefdPRjPT1JA/exec';
   var f = document.getElementById('borang-daftar');
