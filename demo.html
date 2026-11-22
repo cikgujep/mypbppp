@@ -3627,6 +3627,10 @@ function cariGuru_(email) {
       isiContohPanjang(window, m);
       segar(); m.tetapSesi('admin@moe-dl.edu.my');
       tetapConfig_('tarikh_tutup_PENILAIAN_AKHIR', hariDepan(14));
+      // Lim Wei Ling (kompetensi DIHANTAR, belum disahkan PP): Guru Besar demo menjadi PP2 beliau,
+      // supaya demo PP2 boleh mencuba butang Salin aras PP1
+      var wl = bacaTab_('Guru').baris.filter(function (g) { return /^weiling@/.test(String(g.email)); })[0];
+      if (wl) kemaskiniBaris_('Guru', 'email', wl.email, { pp2_email: 'gb@moe-dl.edu.my' });
     }
     var teks = JSON.stringify(m.data).split('moe-dl.edu.my').join(DOMAIN);
     return JSON.parse(teks);
