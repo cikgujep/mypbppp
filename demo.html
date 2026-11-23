@@ -3631,6 +3631,8 @@ function cariGuru_(email) {
       // supaya demo PP2 boleh mencuba butang Salin aras PP1
       var wl = bacaTab_('Guru').baris.filter(function (g) { return /^weiling@/.test(String(g.email)); })[0];
       if (wl) kemaskiniBaris_('Guru', 'email', wl.email, { pp2_email: 'gb@moe-dl.edu.my' });
+      // Borang Ali terbuka pada Penilaian akhir (fasa awal sudah disahkan): PYD boleh terus mencuba mengisi
+      bukaBorangAli('PENILAIAN_AKHIR');
     }
     var teks = JSON.stringify(m.data).split('moe-dl.edu.my').join(DOMAIN);
     return JSON.parse(teks);
@@ -3671,6 +3673,28 @@ function cariGuru_(email) {
       setChangeHandler: function (f) { window.addEventListener('popstate', function () { f({ location: { hash: location.hash.slice(1) } }); }); } }
   } };
 
+  /**
+   * Demo PYD: borang Ali sentiasa terbuka pada fasa yang dipilih supaya pengunjung boleh mencuba mengisi.
+   * Fasa sebelum fasa dipilih: disahkan PYD, PP1 dan PP2. Fasa dipilih dan selepasnya: belum dihantar.
+   */
+  function bukaBorangAli(fasa) {
+    var URUTAN = ['PENETAPAN', 'PENILAIAN_1', 'SEMAKAN', 'PENILAIAN_AKHIR'];
+    var KUNCI_F = { PENETAPAN: 'penetapan', PENILAIAN_1: 'penilaian1', SEMAKAN: 'semakan', PENILAIAN_AKHIR: 'akhir' };
+    var TARIKH = { penetapan: ['01-20', '01-25', '01-27'], penilaian1: ['06-10', '06-20', '06-24'], semakan: ['07-15', '07-20', '07-22'], akhir: ['11-05', '11-12', '11-14'] };
+    var idx = URUTAN.indexOf(fasa);
+    if (idx < 0) return; // Tutup: biarkan seperti sedia ada
+    var b = bacaTab_('Borang').baris.filter(function (x) { return /^ali@/.test(String(x.email)); })[0];
+    if (!b) return;
+    var tahun = String(config_().tahun || new Date().getFullYear()), ubah = {};
+    URUTAN.forEach(function (f, i) {
+      var k = KUNCI_F[f], t = TARIKH[k];
+      ubah['sign_' + k + '_pyd'] = i < idx ? tahun + '-' + t[0] : '';
+      ubah['sign_' + k + '_pp1'] = i < idx ? tahun + '-' + t[1] : '';
+      ubah['sign_' + k + '_pp2'] = i < idx ? tahun + '-' + t[2] : '';
+    });
+    kemaskiniBaris_('Borang', 'form_id', b.form_id, ubah);
+  }
+
   document.addEventListener('DOMContentLoaded', function () {
     var s = document.getElementById('demo-sebagai');
     s.value = sebagai;
@@ -3678,7 +3702,7 @@ function cariGuru_(email) {
     s.onchange = function () { tulisStor('ek_demo_sebagai', s.value); var h = { ali: 'borang', gpk: 'pp', gb: 'pp', admin: 'admin' }[s.value] || ''; try { history.replaceState(null, '', location.pathname + location.search + '#' + h); } catch (e) {} location.reload(); };
     var f = document.getElementById('demo-fasa');
     f.value = String(config_().fasa_aktif);
-    f.onchange = function () { segar(); tetapConfig_('fasa_aktif', f.value); location.reload(); };
+    f.onchange = function () { segar(); tetapConfig_('fasa_aktif', f.value); bukaBorangAli(f.value); location.reload(); };
     document.getElementById('demo-set').onclick = function () {
       try { localStorage.removeItem(KUNCI); } catch (e) {}
       location.reload();
